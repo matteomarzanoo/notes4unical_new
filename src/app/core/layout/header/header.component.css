@@ -1,0 +1,134 @@
+body {
+    padding-top: 70px; /* Altezza dell'header */
+}
+
+header {
+  background-color: #800020;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 98%;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  height: 30px;
+  overflow: hidden;
+}
+
+header.shrinked {
+  height: 1px;
+  padding: 0 5;
+}
+
+header.shrinked .logo h1 {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+header.shrinked nav {
+  display: none;
+}
+header .logo h1 {
+    font-size: 26px;
+    margin: 0;
+    padding: 0;
+}
+
+header .logo a {
+    text-decoration: none;
+    color: white;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Contenitore che allinea lo switch e il link Preferiti orizzontalmente */
+header .toggle-container {
+    display: flex;
+    align-items: center;
+    margin-right: 1px; /* Distanza tra il contenitore e il resto dei link */
+}
+
+/* Lo switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Aumentato per fare lo switch più lungo */
+    height: 20px;
+    margin-right: 10px; /* Distanza tra lo switch e il link Preferiti */
+}
+
+/* Rendi invisibile l'input */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Stile dello slider (lo switch) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #dcbb02; /* Giallo quando spento */
+    transition: 0.8s;
+    border-radius: 34px;
+    display: flex;
+    justify-content: space-between; /* Distribuisce le icone ai bordi */
+    align-items: center;
+    padding: 0 5px; /* Spazio tra le icone e i bordi */
+}
+
+/* Cambia colore quando lo switch è acceso */
+input:checked + .slider{
+    background-color: #074f9b; /* Blu quando attivo */
+}
+
+/* Posiziona correttamente le icone */
+.sun-icon,
+.moon-icon {
+    color: white;
+    font-size: 14px;
+    transition: 0.4s;
+}
+
+/* Quando è attivo, nascondi l'icona del sole e mostra quella della luna */
+input:checked + .slider .sun-icon {
+   
+    opacity: 0;
+}
+
+input:checked + .slider .moon-icon {
+    opacity: 1;
+}
+
+/* Quando è spento, nascondi l'icona della luna e mostra quella del sole */
+input:not(:checked) + .slider .sun-icon {
+    opacity: 1;
+}
+
+input:not(:checked) + .slider .moon-icon {
+    opacity: 0;
+}

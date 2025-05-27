@@ -1,0 +1,38 @@
+<div class="change-password-container">
+    <!-- Titolo della pagina -->
+    <h2>Change Your Password</h2>
+  
+    <!-- Descrizione sulla sicurezza delle password -->
+    <p class="description">For security reasons, make sure your password is strong and follows the guidelines below:</p>
+    
+    <ul class="security-guidelines">
+      <li>At least 8 characters long.</li>
+      <li>Include both uppercase and lowercase letters.</li>
+      <li>Use at least one number.</li>
+      <li>Include at least one special character (e.g., !, &#64;, #, $).</li>
+    </ul>
+  
+    <!-- Modulo per il cambio password -->
+    <form (ngSubmit)="onSubmit()">
+      <div class="input-group">
+        <label for="oldPassword">Old Password</label>
+        <input type="password" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" required />
+      </div>
+      
+      <div class="input-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required />
+      </div>
+  
+      <div class="input-group">
+        <label for="confirmPassword">Confirm New Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" required />
+      </div>
+  
+      <button type="submit" class="change-button" [disabled]="newPassword !== confirmPassword">Change</button>
+    </form>
+  
+    <!-- Messaggio di successo o errore -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+  </div>
+  
