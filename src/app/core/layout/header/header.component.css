@@ -1,5 +1,6 @@
-body {
-    padding-top: 70px; /* Altezza dell'header */
+body, html {
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -15,14 +16,28 @@ header {
   width: 98%;
   z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
   height: 22px;
   overflow: hidden;
 }
 
 header.shrinked {
-  height: 1px;
-  padding: 0 5;
+  height: 30px;
+  padding: 0 5px;
+  
+}
+
+/* In versione mobile, override per mostrare tutto */
+@media (max-width: 768px) {
+  header {
+    height: 100vh !important;
+    overflow-y: auto;
+  }
+
+  header.shrinked {
+    height: 100vh !important;
+    padding: 8px 0;
+  }
 }
 
 header.shrinked .logo h1 {
@@ -137,7 +152,7 @@ input:not(:checked) + .slider .moon-icon {
   header {
     top: 0;
     left: 0;
-    width: 30px; /* Più snella */
+    width: 30px;
     height: 100vh;
     flex-direction: column;
     align-items: center;
@@ -148,7 +163,7 @@ input:not(:checked) + .slider .moon-icon {
   }
 
   header:hover {
-    width: 160px; /* Espansione più contenuta */
+    width: 105px; /* Espansione più contenuta */
     align-items: flex-start;
     padding: 8px 10px;
   }
@@ -166,7 +181,7 @@ input:not(:checked) + .slider .moon-icon {
   header:hover .logo h1 {
     writing-mode: initial;
     transform: none;
-    font-size: 18px;
+    font-size: 14px;
   }
 
   header nav {
