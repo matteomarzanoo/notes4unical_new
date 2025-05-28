@@ -16,7 +16,7 @@ header {
   z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  height: 30px;
+  height: 22px;
   overflow: hidden;
 }
 
@@ -131,4 +131,79 @@ input:not(:checked) + .slider .sun-icon {
 
 input:not(:checked) + .slider .moon-icon {
     opacity: 0;
+}
+
+@media (max-width: 768px) {
+  header {
+    top: 0;
+    left: 0;
+    width: 30px; /* Più snella */
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 0;
+    transition: width 0.3s ease, padding 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  header:hover {
+    width: 160px; /* Espansione più contenuta */
+    align-items: flex-start;
+    padding: 8px 10px;
+  }
+
+  header .logo h1 {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  header:hover .logo h1 {
+    writing-mode: initial;
+    transform: none;
+    font-size: 18px;
+  }
+
+  header nav {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  header:hover nav {
+    display: flex;
+  }
+
+  header nav a {
+    margin: 8px 0;
+    font-size: 14px;
+  }
+
+  header .toggle-container {
+    margin: 8px 0;
+  }
+
+  .desktop-logo {
+    display: none;
+  }
+
+  .mobile-logo {
+    display: inline;
+    font-size: 18px;
+  }
+
+  header:hover .desktop-logo {
+    display: inline;
+  }
+
+  header:hover .mobile-logo {
+    display: none;
+  }
 }
