@@ -34,18 +34,20 @@ export class LoginComponent implements AfterViewInit {
       return;
     }
 
-    this.authService.login(username, password).subscribe(
-      response => {
-        console.log('Login riuscito:', response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('isLoggedIn', 'true');
-        alert('Login effettuato con successo!');
-        this.router.navigate(['/home']); // Redirect alla home
-      },
-      error => {
-        console.error('Errore di login:', error);
-        alert('Credenziali errate!');
-      }
-    );
+this.authService.login(username, password).subscribe(
+  response => {
+    console.log('Login riuscito:', response);
+    // Qui puoi salvare solo info essenziali:
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', username);
+    alert('Login effettuato con successo!');
+    this.router.navigate(['/home']);
+  },
+  error => {
+    console.error('Errore di login:', error);
+    alert('Credenziali errate!');
+  }
+);
+
   }
 }
