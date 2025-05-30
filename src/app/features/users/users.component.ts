@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-users',
-  imports: [],
+  imports: [RouterOutlet],
   template: `
-    <p>
-      users works!
-    </p>
+    <router-outlet />
   `,
   styles: ``
 })

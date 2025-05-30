@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-user-button',
+  selector: 'app-admin-genuser',
   imports: [],
   template: `
     <p>
-      user-button works!
+      admin-genuser works!
     </p>
   `,
   styles: ``
 })
-export class UserButtonComponent {
+export class AdminGenuserComponent {
 
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocButtonComponent } from './doc-button.component';
+import { AdminGenuserComponent } from './admin-genuser.component';
 
-describe('DocButtonComponent', () => {
-  let component: DocButtonComponent;
-  let fixture: ComponentFixture<DocButtonComponent>;
+describe('AdminGenuserComponent', () => {
+  let component: AdminGenuserComponent;
+  let fixture: ComponentFixture<AdminGenuserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DocButtonComponent]
+      imports: [AdminGenuserComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DocButtonComponent);
+    fixture = TestBed.createComponent(AdminGenuserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

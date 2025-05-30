@@ -1,6 +1,11 @@
 export interface Doc {
-    file: File;
-    name: string;
-    description: string;
-    course: string;
+    id?: number
+    user_id?: number
+    data: File,
+    name: string,
+    description: string,
+    course: string
+    subject?: string
+    validated?: boolean
+    validated_admin?: number
 }

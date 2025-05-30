@@ -1,38 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DocService } from '../shared/doc.service';
-import { DocComponent } from '../doc/doc.component';
-import { CommonModule } from '@angular/common';
+import { DocComponent } from "../doc/doc.component";
+import { Subscription, tap } from 'rxjs';
+import { Doc } from '../shared/doc';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doc-list',
-  imports: [CommonModule, DocComponent],
+  imports: [DocComponent],
   template: `
-    <section class="hero-section">
-      <h2 class="hero-text">Questa è una lista di documenti</h2>
-    </section>
-    <article class="doc-list">
-      <app-doc *ngFor="let doc of docService.docs; let i = index" [index]="i" [doc]="doc"/>
+    <h2>List of latest uploads</h2>
+    <input 
+      type="text" 
+      id="finder" 
+      placeholder="Find a Document">
+    <article>
+      @for (doc of docs; track $index) {
+        @if (doc.validated) {
+          <app-doc [index]="$index" [doc]="doc"/>
+        }
+      } @empty {
+        <li>There are no items.</li>
+      }
     </article>
   `,
-  styles: [`
-  .doc-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; 
-    padding: 10px;
+  styles: ``
+})
+export class DocListComponent implements OnInit, OnDestroy {
+
+  docs: Doc[] = [];
+  private docsSub?: Subscription;
+
+  constructor(
+    private readonly docService: DocService,
+    private router: Router
+  ) { }
+  
+  ngOnDestroy(): void {
+    if (this.docsSub) {
+      this.docsSub.unsubscribe();
+      this.docsSub.closed;
+    }
   }
 
-  .hero-text {
-    font-size: 25pt;
-    padding: 10px;
-  }
-`]
-})
-export class DocListComponent implements OnInit {
-  constructor(readonly docService: DocService) { }
-  
-  // Printing type here
   ngOnInit(): void {
-    console.log(this.docService.docs);
+    this.docsSub = this.docService.getAllDocs()
+      .pipe(tap(e => console.log(`This is the elem -> ${e}, ${typeof e}`)))
+      .subscribe(docs => {
+        if (!(Object.keys(docs).length === 0) || !(docs.constructor === Object)) {
+          this.docs = docs;
+        }
+      })
+    
+    console.log(
+      this.router.config
+    )
   }
 }

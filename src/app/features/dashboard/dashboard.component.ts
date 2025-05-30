@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-admin-button',
+  selector: 'app-dashboard',
   imports: [],
   template: `
     <p>
-      admin-button works!
+      dashboard works!
     </p>
   `,
   styles: ``
 })
-export class AdminButtonComponent {
+export class DashboardComponent {
 
 }

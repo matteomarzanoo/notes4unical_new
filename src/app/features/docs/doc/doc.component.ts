@@ -1,54 +1,90 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Doc } from '../shared/doc';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-doc',
   imports: [],
   template: `
-    <article class="doc-card">
-      <p class="doc-headline">Read <span class="doc-name">{{doc.name}}</span></p>
-      <p class="doc-description"> 
-        <span class="doc-name">{{doc.name}}</span> wants you to know this about {{doc.name}}:
-        {{doc.description}}
-
-      </p>
-      <p class="docs-learn-more"><a href="/details/{{index}}">Learn More</a></p>
-    <article>
+    <div class="card">
+      <div class="card-image"></div>
+      <div class="category"> {{ doc.course }} </div>
+      <div class="heading"> {{ doc.name }}
+        <!-- Aggiungere data di caricamento nel DB -->
+        <div class="author"> By <span class="name">{{ doc.name }}</span> 4 days ago</div>
+      </div>
+      <div>
+        <a (click)="goToDoc()">Learn More</a>
+      </div>
+    </div>
   `,
-  styles: [`
-  .doc-card {
-    display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    width: 300px;
-  }
+  styles: `
+    .card {
+      width: 190px;
+      background: white;
+      padding: .4em;
+      border-radius: 6px;
+    }
 
-  .doc-img {
-    border-radius: 10px 10px 0 0;
-    width: 300px;
-  }
+    .card-image {
+      background-color: rgb(236, 236, 236);
+      width: 100%;
+      height: 130px;
+      border-radius: 6px 6px 0 0;
+    }
 
-  .doc-name {
-    font-weight: bolder;
-  }
+    .card-image:hover {
+      transform: scale(0.98);
+    }
 
-  .doc-description, .doc-headline, .doc-learn-more {
-    padding: 10px;
-  }
+    .category {
+      text-transform: uppercase;
+      font-size: 0.7em;
+      font-weight: 600;
+      color: rgb(63, 121, 230);
+      padding: 10px 7px 0;
+    }
 
-  .doc-headline {
-    font-size: 18pt;
-  }
-`]
+    .category:hover {
+      cursor: pointer;
+    }
+
+    .heading {
+      font-weight: 600;
+      color: rgb(88, 87, 87);
+      padding: 7px;
+    }
+
+    .heading:hover {
+      cursor: pointer;
+    }
+
+    .author {
+      color: gray;
+      font-weight: 400;
+      font-size: 11px;
+      padding-top: 20px;
+    }
+
+    .name {
+      font-weight: 600;
+    }
+
+    .name:hover {
+      cursor: pointer;
+    }
+  `
 })
-export class DocComponent implements OnInit {
+export class DocComponent{
   @Input() doc!: Doc;
   @Input() index!: Number;
 
-  constructor() { }
-  
-  ngOnInit(): void {
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
+  goToDoc() {
+    this.router.navigate([this.index], { state: { docTaken: this.doc }, relativeTo: this.route })
+  }
 }
