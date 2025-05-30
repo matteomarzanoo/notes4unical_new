@@ -41,7 +41,7 @@ this.authService.login(username, password).subscribe(
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('userEmail', username);
     alert('Login effettuato con successo!');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   },
   error => {
     console.error('Errore di login:', error);
