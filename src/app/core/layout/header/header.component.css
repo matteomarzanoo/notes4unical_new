@@ -222,3 +222,40 @@ input:not(:checked) + .slider .moon-icon {
     display: none;
   }
 }
+
+.greeting {
+  color: white;
+  margin-right: 15px;  /* spazio a destra tra 'Ciao' e toggle */
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.user-info {
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  gap: 6px; /* spazio controllato fra elementi */
+}
+
+.user-info .separator {
+  margin: 0; /* nessuno spazio extra */
+  padding: 0;
+  user-select: none;
+}
+
+.user-info a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.user-info a:hover {
+  text-decoration: underline;
+}

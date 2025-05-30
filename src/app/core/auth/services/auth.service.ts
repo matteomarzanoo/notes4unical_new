@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -21,9 +21,17 @@ login(email: string, password: string): Observable<any> {
 
   return this.http.post(`${this.apiUrl}/login`, body.toString(), {
     headers: headers,
-    withCredentials: true // IMPORTANTISSIMO per mandare cookie sessione
-  });
+    withCredentials: true
+  }).pipe(
+    tap((response: any) => {
+      // Salva in localStorage i dati dell’utente appena ricevuti dal backend
+      localStorage.setItem('user', JSON.stringify(response));
+      // Puoi anche settare il flag di login se vuoi
+      localStorage.setItem('isLoggedIn', 'true');
+    })
+  );
 }
+
 
 
   // REGISTRAZIONE
