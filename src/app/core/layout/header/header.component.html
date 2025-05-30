@@ -1,1 +1,24 @@
-<p>header works!</p>
+<header
+  [class.shrinked]="!isHomePage && !isHovered"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <div class="logo">
+    <h1><a [routerLink]="['/home']">NOTES4UNICAL</a></h1>
+  </div>
+
+  <nav>
+    <div class="toggle-container">
+      <label class="switch">
+        <input type="checkbox" class="switch-input" (change)="toggleTheme($event)">
+        <span class="slider">
+          <i class="bi bi-sun-fill sun-icon"></i>
+          <i class="bi bi-moon-fill moon-icon"></i>
+        </span>
+      </label>
+    </div>
+    <a [routerLink]="['/preferiti']">Preferiti</a>
+    <a [routerLink]="['/profile']">Profilo</a>
+    <a [routerLink]="['/login']">Login</a>
+  </nav>
+</header>

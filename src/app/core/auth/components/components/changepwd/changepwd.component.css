@@ -1,0 +1,78 @@
+/* Container principale */
+.change-password-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .description {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .security-guidelines {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 20px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .security-guidelines li {
+    margin-bottom: 8px;
+  }
+  
+  /* Form per la password */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  .input-group input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  
+  /* Messaggio di errore */
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+  

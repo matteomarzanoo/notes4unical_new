@@ -1,0 +1,224 @@
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #800020;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 98%;
+  z-index: 10;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.1s ease;
+  height: 22px;
+  overflow: hidden;
+}
+
+header.shrinked {
+  height: 30px;
+  padding: 0 15px;
+  
+}
+
+/* In versione mobile, override per mostrare tutto */
+@media (max-width: 768px) {
+  header {
+    height: 100vh !important;
+    overflow-y: auto;
+  }
+
+  header.shrinked {
+    height: 100vh !important;
+    padding: 8px 0;
+  }
+}
+
+header.shrinked .logo h1 {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+header.shrinked nav {
+  display: none;
+}
+header .logo h1 {
+    font-size: 26px;
+    margin: 0;
+    padding: 0;
+}
+
+header .logo a {
+    text-decoration: none;
+    color: white;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* Contenitore che allinea lo switch e il link Preferiti orizzontalmente */
+header .toggle-container {
+    display: flex;
+    align-items: center;
+    margin-right: 1px; /* Distanza tra il contenitore e il resto dei link */
+}
+
+/* Lo switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Aumentato per fare lo switch più lungo */
+    height: 20px;
+    margin-right: 10px; /* Distanza tra lo switch e il link Preferiti */
+}
+
+/* Rendi invisibile l'input */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Stile dello slider (lo switch) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #dcbb02; /* Giallo quando spento */
+    transition: 0.8s;
+    border-radius: 34px;
+    display: flex;
+    justify-content: space-between; /* Distribuisce le icone ai bordi */
+    align-items: center;
+    padding: 0 5px; /* Spazio tra le icone e i bordi */
+}
+
+/* Cambia colore quando lo switch è acceso */
+input:checked + .slider{
+    background-color: #074f9b; /* Blu quando attivo */
+}
+
+/* Posiziona correttamente le icone */
+.sun-icon,
+.moon-icon {
+    color: white;
+    font-size: 14px;
+    transition: 0.4s;
+}
+
+/* Quando è attivo, nascondi l'icona del sole e mostra quella della luna */
+input:checked + .slider .sun-icon {
+   
+    opacity: 0;
+}
+
+input:checked + .slider .moon-icon {
+    opacity: 1;
+}
+
+/* Quando è spento, nascondi l'icona della luna e mostra quella del sole */
+input:not(:checked) + .slider .sun-icon {
+    opacity: 1;
+}
+
+input:not(:checked) + .slider .moon-icon {
+    opacity: 0;
+}
+
+@media (max-width: 768px) {
+  header {
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 0;
+    transition: width 0.3s ease, padding 0.3s ease;
+    overflow-x: hidden;
+  }
+
+  header:hover {
+    width: 105px; /* Espansione più contenuta */
+    align-items: flex-start;
+    padding: 8px 10px;
+  }
+
+  header .logo h1 {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  header:hover .logo h1 {
+    writing-mode: initial;
+    transform: none;
+    font-size: 14px;
+  }
+
+  header nav {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  header:hover nav {
+    display: flex;
+  }
+
+  header nav a {
+    margin: 8px 0;
+    font-size: 14px;
+  }
+
+  header .toggle-container {
+    margin: 8px 0;
+  }
+
+  .desktop-logo {
+    display: none;
+  }
+
+  .mobile-logo {
+    display: inline;
+    font-size: 18px;
+  }
+
+  header:hover .desktop-logo {
+    display: inline;
+  }
+
+  header:hover .mobile-logo {
+    display: none;
+  }
+}

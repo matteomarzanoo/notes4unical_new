@@ -1,0 +1,93 @@
+/* Contenitore login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 100px); /* Altezza totale meno l'header */
+  }
+  
+  /* Box Login */
+  .login-left {
+    background: #fff;
+    color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Titolo con effetto digitazione */
+  h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #800020;
+    width: 7ch;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #7E2EA0;
+    animation: typing 1.5s steps(6, end) forwards, cursor .5s steps(6, end) infinite;
+  }
+  
+  /* Effetto digitazione */
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 13ch; }
+  }
+  
+  /* Effetto cursore lampeggiante */
+  @keyframes cursor {
+    50% { border-color: transparent; }
+  }
+  h1.no-cursor {
+    border-right: none;
+  }
+  
+  
+  /* Sottotitolo */
+  h4 {
+    margin-bottom: 20px;
+    font-size: 18px;
+  }
+  
+  /* Form */
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: left;
+    display: block;
+  }
+  
+  input[type="email"], 
+  input[type="password"],
+  input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+
+  .name-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
