@@ -1,11 +1,11 @@
 <main id="mainHome">
   <div class="search-container">
-    <input type="text" placeholder="Cerca documenti">
+    <input type="text" placeholder="Find Documents">
     <button class="search-btn">🔍</button>
   </div>
 
   <section class="recent-similar">
-    <h2 id="h2recent">Visti di recente e simili</h2>
+    <h2 id="h2recent">List of latest uploads</h2>
     <div class="document-list">
       <div class="document" *ngFor="let doc of documents">
         <a [routerLink]="['/doc', doc.id, doc.title, doc.subject, doc.year]">
@@ -20,10 +20,10 @@
 
   <!-- Bottone che porta alla pagina di upload -->
   <div class="upload-icon">
-    <h3>Carica documento</h3>
+    <h3>Upload a Document</h3>
     <p>⬇︎</p>
-    <a [routerLink]="['/upload']">
-      <button class="upload-btn">📤 Vai alla pagina di caricamento</button>
+    <a routerLink="docs/upload">
+      <button class="upload-btn">📤 Go to the upload page</button>
     </a>
   </div>
 </main>

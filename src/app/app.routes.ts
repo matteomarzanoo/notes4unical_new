@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { HomeComponent } from './features/home/home.component';
+import { FeedbackComponent } from './shared/feedback/feedback.component';
 
 export const routes: Routes = [
     {
         path: '',
         title: 'Homepage | Notes4Unical - Be the Community',
-        component: DashboardComponent,
-        children: []
+        component: HomeComponent,
     },
     {
         path: 'docs',
@@ -20,7 +20,7 @@ export const routes: Routes = [
     {
         path: 'feedback',
         title: 'Send a Feedback | Notes4Unical - Be the Community',
-        loadComponent: () => import('./shared/feedback/feedback.component').then(c => c.FeedbackComponent)
+        component: FeedbackComponent
     },
     {
         path: '',

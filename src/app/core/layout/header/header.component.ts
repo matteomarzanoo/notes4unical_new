@@ -18,7 +18,7 @@ export class HeaderComponent {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.isHomePage = event.urlAfterRedirects === '/home';
+      this.isHomePage = event.urlAfterRedirects === '/';
     });
   }
 
