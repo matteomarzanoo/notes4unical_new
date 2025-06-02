@@ -7,20 +7,20 @@ import { LoginComponent } from './core/auth/components/login/login.component';
 
 export const routes: Routes = [
     {
-        path: '',
         title: 'Homepage | Notes4Unical - Be the Community',
-        component: HomeComponent,
+        path: '',
+        component: HomeComponent
     },
-
-    { 
+    {
+        title: 'Login | Notes4Unical - Be the Community',
         path: 'login',
         component: LoginComponent,
     },
-        { 
+    {
+        title: 'Register Now! | Notes4Unical - Be the Community',
         path: 'register',
         component: RegisterComponent,
     },
-
     {
         path: 'docs',
         loadChildren: () => import('./features/docs/docs.routes').then(r => r.docRoutes)
@@ -30,8 +30,8 @@ export const routes: Routes = [
         loadChildren: () => import('./features/users/user.routes').then(r => r.userRoutes)
     },
     {
-        path: 'feedback',
         title: 'Send a Feedback | Notes4Unical - Be the Community',
+        path: 'feedback',
         component: FeedbackComponent
     },
     {
@@ -40,8 +40,8 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: '**',
         title: 'Oops! Something is missing',
+        path: '**',
         component: PageNotFoundComponent
     }
 ];

@@ -1,59 +1,53 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DocService } from '../shared/doc.service';
 import { DocComponent } from "../doc/doc.component";
-import { Subscription, tap } from 'rxjs';
+import { Observable, Subject, debounceTime, switchMap, distinctUntilChanged, startWith } from 'rxjs';
 import { Doc } from '../shared/doc';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-doc-list',
-  imports: [DocComponent],
-  template: `
-    <h2>List of latest uploads</h2>
-    <input 
-      type="text" 
-      id="finder" 
-      placeholder="Find a Document">
-    <article>
-      @for (doc of docs; track $index) {
-        @if (doc.validated) {
-          <app-doc [index]="$index" [doc]="doc"/>
-        }
-      } @empty {
-        <li>There are no items.</li>
-      }
-    </article>
-  `,
-  styles: ``
+  imports: [DocComponent, AsyncPipe],
+  templateUrl: './doc-list.component.html',
+  styleUrls: ['./doc-list.component.css']
 })
 export class DocListComponent implements OnInit, OnDestroy {
-
-  docs: Doc[] = [];
-  private docsSub?: Subscription;
+  docs$!: Observable<Doc[]>;
+  private searchTerms = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   constructor(
-    private readonly docService: DocService,
-    private router: Router
+    private docService: DocService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
-  
-  ngOnDestroy(): void {
-    if (this.docsSub) {
-      this.docsSub.unsubscribe();
-      this.docsSub.closed;
-    }
-  }
 
   ngOnInit(): void {
-    this.docsSub = this.docService.getAllDocs()
-      .pipe(tap(e => console.log(`This is the elem -> ${e}, ${typeof e}`)))
-      .subscribe(docs => {
-        if (!(Object.keys(docs).length === 0) || !(docs.constructor === Object)) {
-          this.docs = docs;
-        }
-      })
-    
-    console.log(
-      this.router.config
-    )
+    const allDocs$ = this.docService.getAllDocs();
+
+    this.docs$ = this.searchTerms
+      .pipe(
+        startWith(''),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(term => term.trim()
+          ? this.docService.searchDocs(term)
+          : allDocs$
+        )
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  goToUpload(): void {
+    this.router.navigate(['upload'], { relativeTo: this.route });
   }
 }

@@ -28,6 +28,7 @@ login(email: string, password: string): Observable<any> {
       localStorage.setItem('user', JSON.stringify(response));
       // Puoi anche settare il flag di login se vuoi
       localStorage.setItem('isLoggedIn', 'true');
+      console.log(response);
     })
   );
 }

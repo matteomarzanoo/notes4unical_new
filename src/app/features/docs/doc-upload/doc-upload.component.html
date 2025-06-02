@@ -1,0 +1,54 @@
+<ng-container *ngIf="!uploadSuccess; else successScreen">
+      <form [formGroup]="uploadDoc" (ngSubmit)="onLoad()">
+        <label for="file">
+          Upload a Document
+          <input 
+            type="file" 
+            name="file" 
+            id="file" 
+            formControlName = "file"
+            accept=".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt"
+            (change)="onFilePicked($event)" />
+        </label>
+
+        <label for="name">
+          Enter a Name
+          <input 
+            type="text" 
+            name="file" 
+            id="name" 
+            formControlName="name" />
+        </label>
+
+        <label for="course">
+          Insert the Course
+          <input 
+            type="text" 
+            name="file" 
+            id="course" 
+            formControlName="course"/>
+        </label>
+
+        <label for="description">
+          Insert a Description
+          <textarea
+            id="description"
+            name="description"
+            formControlName="description"
+            rows="5"
+            placeholder="Describe your document here..."></textarea>
+        </label>
+
+        <button [disabled]="!uploadDoc.valid">Upload</button>
+        <button type="button" (click)="delOngoing()">Cancel</button>
+      </form>
+    </ng-container>
+    <ng-template #successScreen>
+      <div class="success-container">
+        <h1 style="font-size: 4rem; margin-bottom: 0.5em;">👍</h1>
+        <h2>Upload avvenuto con successo!</h2>
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
+      </div>
+    </ng-template>

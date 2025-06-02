@@ -1,0 +1,25 @@
+<h1>List of Latest Uploads</h1>
+
+<section id="search-component">
+  <label for="search-box">Find a Document (by course)</label>
+  <input 
+    #searchBox
+    type="text"  
+    id="search-box"
+    placeholder="Enter a course name"
+    (input)="search(searchBox.value)" />
+</section>
+
+<button type="button" (click)="goToUpload()">Upload a Document</button>
+
+<section class="doc-grid">
+  @if (docs$ | async; as docs) {
+    @if (docs.length > 0) {
+      @for (doc of docs; track $index) {
+        <app-doc [doc]="doc"></app-doc>
+      }
+    } @else {
+      <p class="empty-state">There are no matching documents.</p>
+    }
+  }
+</section>

@@ -11,5 +11,4 @@ import { RouterOutlet } from '@angular/router';
   `,
   styles: ``
 })
-export class DocsComponent {
-}
+export class DocsComponent {}
