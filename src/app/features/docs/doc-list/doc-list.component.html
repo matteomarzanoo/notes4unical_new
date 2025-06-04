@@ -1,25 +1,44 @@
-<h1>List of Latest Uploads</h1>
+<!-- Spazio sopra per l'header -->
+<div style="margin-top: 40px;"></div>
 
-<section id="search-component">
-  <label for="search-box">Find a Document (by course)</label>
+<!-- Campo di ricerca -->
+<section id="search-component" style="margin-bottom: 2rem;">
+  <label for="search-box" style="font-weight: bold; display: block; margin-bottom: 0.5rem;">
+    Find a Document (by course)
+  </label>
   <input 
     #searchBox
     type="text"  
     id="search-box"
     placeholder="Enter a course name"
-    (input)="search(searchBox.value)" />
+    (input)="search(searchBox.value)"
+    style="width: 100%; max-width: 400px; padding: 0.5rem; border-radius: 8px; border: 1px solid #ccc;" />
 </section>
 
-<button type="button" (click)="goToUpload()">Upload a Document</button>
+<!-- Titolo lista -->
+<h1 style="margin-bottom: 1rem;">List of Latest Uploads</h1>
 
-<section class="doc-grid">
+<!-- Carosello documenti (modificata solo questa parte) -->
+<section class="doc-carousel">
   @if (docs$ | async; as docs) {
     @if (docs.length > 0) {
-      @for (doc of docs; track $index) {
-        <app-doc [doc]="doc"></app-doc>
-      }
+      <div class="carousel-track">
+        @for (doc of docs; track $index) {
+          <div class="carousel-item">
+            <app-doc [doc]="doc"></app-doc>
+          </div>
+        }
+      </div>
     } @else {
       <p class="empty-state">There are no matching documents.</p>
     }
   }
 </section>
+
+<!-- Bottone Upload -->
+<button 
+  type="button" 
+  (click)="goToUpload()" 
+  style="margin-bottom: 2rem; padding: 0.5rem 1rem; border-radius: 6px; background-color: #007bff; color: white; border: none;">
+  Upload a Document
+</button>

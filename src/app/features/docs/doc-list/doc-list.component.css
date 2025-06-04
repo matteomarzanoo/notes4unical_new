@@ -45,3 +45,24 @@ button:hover {
   text-align: center;
   grid-column: 1 / -1;
 }
+
+.doc-carousel {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 4rem;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: calc((100% - 5rem) / 6); /* circa 6 elementi visibili con gap */
+  min-width: 150px; /* evita che diventi troppo piccolo */
+  max-width: 200px; /* limite massimo */
+}
+

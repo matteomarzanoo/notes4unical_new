@@ -161,3 +161,37 @@ textarea {
 .upload-btn:hover {
   background-color: #a3002c;
 }
+
+.carousel-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.carousel {
+  display: flex;
+  gap: 1rem;
+}
+
+.carousel-item {
+  display: inline-block;
+  width: 200px;
+  min-height: 200px;
+  background: #f2f2f2;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.carousel-item:hover {
+  transform: scale(1.05);
+}
+
+.thumbnail {
+  height: 100px;
+  background-color: #ccc;
+  margin-bottom: 10px;
+}

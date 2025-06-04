@@ -6,7 +6,7 @@ import { DocService } from '../../features/docs/shared/doc.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -16,8 +16,9 @@ export class HomeComponent implements OnInit {
   constructor(private documentService: DocService) {}
 
   ngOnInit(): void {
-    this.documentService.getAllDocs().subscribe(
+    this.documentService.getValidDocs().subscribe(
       (data) => {
+        console.log('Documenti ricevuti dalla home:', data);
         this.documents = data;
       },
       (error) => {

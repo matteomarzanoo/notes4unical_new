@@ -66,4 +66,10 @@ export class DocService {
     return this.http.delete(`http://localhost:8080/api/auth/documents/${id}`)
       .pipe(tap(el => console.log(`DEBUG TAP --> The element ${el} was deleted from the server`)));
   }
+
+  getValidDocs(): Observable<Doc[]> {
+    return this.http.get<Doc[]>('http://localhost:8080/api/open/documents/valid')
+      .pipe(tap(_ => console.log('📄 Documenti validi ricevuti')));
+  }
+
 }

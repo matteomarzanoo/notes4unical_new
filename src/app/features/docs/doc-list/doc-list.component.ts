@@ -5,6 +5,7 @@ import { Observable, Subject, debounceTime, switchMap, distinctUntilChanged, sta
 import { Doc } from '../shared/doc';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-doc-list',
@@ -24,7 +25,10 @@ export class DocListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const allDocs$ = this.docService.getAllDocs();
+    const allDocs$ = this.docService.getAllDocs()
+        .pipe(
+     map(docs => docs.slice().reverse().slice(0, 10)) // ultimi 10 docuemnrti inseriti
+    );
 
     this.docs$ = this.searchTerms
       .pipe(
