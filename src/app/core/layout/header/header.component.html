@@ -25,7 +25,7 @@
     </div>
 
     <a routerLink="/preferiti">Preferiti</a>
-    <a routerLink="/profile">Profilo</a>
+    <a routerLink="/user">Profilo</a>
 
     <a *ngIf="!user" routerLink="/login">Login</a>
     <a *ngIf="user" href="#" (click)="logout($event)">Logout</a>

@@ -6,42 +6,12 @@ import { RegisterComponent } from './core/auth/components/register/register.comp
 import { LoginComponent } from './core/auth/components/login/login.component';
 
 export const routes: Routes = [
-    {
-        title: 'Homepage | Notes4Unical - Be the Community',
-        path: '',
-        component: HomeComponent
-    },
-    {
-        title: 'Login | Notes4Unical - Be the Community',
-        path: 'login',
-        component: LoginComponent,
-    },
-    {
-        title: 'Register Now! | Notes4Unical - Be the Community',
-        path: 'register',
-        component: RegisterComponent,
-    },
-    {
-        path: 'docs',
-        loadChildren: () => import('./features/docs/docs.routes').then(r => r.docRoutes)
-    },
-    {
-        path: 'profile',
-        loadChildren: () => import('./features/users/user.routes').then(r => r.userRoutes)
-    },
-    {
-        title: 'Send a Feedback | Notes4Unical - Be the Community',
-        path: 'feedback',
-        component: FeedbackComponent
-    },
-    {
-        path: '',
-        redirectTo: '',
-        pathMatch: 'full'
-    },
-    {
-        title: 'Oops! Something is missing',
-        path: '**',
-        component: PageNotFoundComponent
-    }
+    { title: 'Homepage | Notes4Unical - Be the Community', path: '', component: HomeComponent },
+    { title: 'Login | Notes4Unical - Be the Community', path: 'login', component: LoginComponent },
+    { title: 'Register Now! | Notes4Unical - Be the Community', path: 'register', component: RegisterComponent },
+    { path: 'docs', loadChildren: () => import('./features/docs/docs.routes').then(c => c.DOC_ROUTES) },
+    { path: 'user', loadChildren: () => import('./features/users/users.routes').then(c => c.USERS_ROUTES) },
+    { title: 'Send a Feedback | Notes4Unical - Be the Community', path: 'feedback', component: FeedbackComponent },
+    { path: '', redirectTo: '',pathMatch: 'full' },
+    { title: 'Oops! Something is missing', path: '**', component: PageNotFoundComponent }
 ];

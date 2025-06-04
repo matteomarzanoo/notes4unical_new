@@ -8,7 +8,9 @@ import { Observable, of, tap } from 'rxjs';
 })
 export class DocService {
   
-  constructor(private readonly http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
   /**
    * GET docs from the server with an open API
    */
@@ -16,7 +18,6 @@ export class DocService {
     return this.http.get<Doc[]>('http://localhost:8080/api/open/documents')
       .pipe(tap(_ => console.log(`DEBUG TAP --> The elements were retrieved from the server`)));
   }
-
   /**
    * GET doc by id from the server with an authenticated account
    */
@@ -24,7 +25,6 @@ export class DocService {
     return this.http.get<Doc>(`http://localhost:8080/api/auth/documents/${id}`)
       .pipe(tap(el => console.log(`DEBUG TAP --> The element ${el} was retrieved from the server`)));
   }
-
   /**
    * GET doc file by id from the server with an authenticated account
    */
@@ -32,7 +32,6 @@ export class DocService {
     return this.http.get(`http://localhost:8080/api/auth/documents/download/${id}`, { responseType: 'blob' })
       .pipe(tap(el => console.log(el)));
   }
-
   /**
    * GET docs whose name contains search term
    */
@@ -45,7 +44,6 @@ export class DocService {
         tap(x => x.length ? console.log(`found docs matching ${term}`) : console.log(`no docs mathing ${term}`))
       )
   }
-
   /**
    * POST add a new document to the server
    */
@@ -53,7 +51,6 @@ export class DocService {
     return this.http.post<FormData>(`http://localhost:8080/api/auth/documents/upload`, doc)
       .pipe(tap(el => console.log(`The element ${el} was added to the server`)));
   }
-
   /**
    * PUT update the doc on the server
    * TO FIX
@@ -62,7 +59,6 @@ export class DocService {
     return this.http.put(`http://localhost:8080//${id}`, doc)
       .pipe(tap(el => console.log(`The element ${el} was updated on the server`)));
   }
-
   /**
    * DELETE delete the doc from the server with an authenticated account
    */
