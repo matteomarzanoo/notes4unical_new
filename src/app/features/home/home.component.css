@@ -1,197 +1,105 @@
-/* Popup generale */
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Sfondo più scuro per migliorare la visibilità */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Popup visibile */
-.popup.visible {
-    visibility: visible;
-    opacity: 1;
+html, body {
+  width: 100%;
+  height: 100%;
 }
 
-/* Contenuto del popup */
-.popup-content {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 450px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
+#mainHome {
+  width: 100%;
+  overflow-x: hidden;
 }
 
-/* Aggiungi effetto di traslazione per il popup */
-.popup.visible .popup-content {
-    transform: translateY(0);
-}
-
-/* Rimuovi il colore blu e la sottolineatura dai link */
-a {
-    color: black; /* Colore bianco per i link */
-    text-decoration: none; /* Rimuove la sottolineatura */
-}
-
-a:hover {
-    color: #800020; /* Colore per il passaggio del mouse, ad esempio un rosso scuro */
-}
-
-/* Gruppo di input */
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-/* Etichette degli input */
-label {
-    font-size: 16px;
-    margin-bottom: 8px;
-    display: block;
-    color: #333; /* Colore più scuro per una lettura migliore */
-}
-
-/* Input e textarea */
-input[type="text"], 
-textarea {
-    width: 100%;
-    padding: 12px; /* Maggiore padding per migliorare la leggibilità */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    background-color: #f9f9f9; /* Sfondo più chiaro per gli input */
-    box-sizing: border-box; /* Assicura che il padding non aumenti la larghezza */
-    transition: border-color 0.3s ease;
-}
-
-textarea {
-    resize: none;
-    height: 100px; /* Altezza definita per una migliore visibilità */
-}
-
-/* Barra di ricerca */
-.search-container {
-    margin: 75px auto;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.search-container input {
-    padding: 14px;
-    width: 40%;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-}
-
-
-
-/* Sezione documenti */
-.recent-similar {
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
-.recent-similar h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.document-list {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.document {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 180px;
-    text-align: center;
-}
-
-.document .thumbnail {
-    height: 100px;
-    background-color: #ddd;
-    margin-bottom: 10px;
-    border-radius: 4px;
-}
-
-/* Icona upload */
-.upload-icon {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.upload-icon .upload-btn {
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-
- 
-.upload-btn {
-  background-color: #800020;
-  color: white;
-  padding: 12px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.upload-btn:hover {
-  background-color: #a3002c;
-}
-
-.carousel-container {
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 1rem;
-  margin-bottom: 2rem;
-}
-
-.carousel {
+/* Immagine di sfondo */
+.hero-section {
+  position: relative;
+  background-image: url('fotouni.png'); /* Cambia con il tuo path */
+  background-size: cover;
+  background-position: center;
+  height: 80vh;
   display: flex;
-  gap: 1rem;
-}
-
-.carousel-item {
-  display: inline-block;
-  width: 200px;
-  min-height: 200px;
-  background: #f2f2f2;
-  border-radius: 10px;
-  padding: 1rem;
+  align-items: center;
+  justify-content: center;
+  color: white;
   text-align: center;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
+  overflow: hidden;
 }
 
-.carousel-item:hover {
-  transform: scale(1.05);
+/* Velo scuro */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgb(96, 91, 91)); /* sfuma verso il bianco */
+  z-index: 1;
 }
 
-.thumbnail {
-  height: 100px;
-  background-color: #ccc;
+/* Testo centrale */
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  z-index: 1;
+  padding: 20px;
+  font-size: 1.5rem;
+}
+
+/* Sfuma verso il bianco */
+.fade-out {
+  position: absolute;
+  bottom: 0;
+  height: 70px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #ffffff); /* trasparente → bianco */
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Parte successiva della pagina */
+.content-section {
+  background-color: rgb(255, 255, 255);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.content-section h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  color: rgb(255, 255, 255);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+
+.about-section {
+  padding: 20px;
+  background-color: #d2d0d0; /* oppure trasparente se in dark mode */
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.about-title {
+  font-size: 1.4em;
   margin-bottom: 10px;
+}
+
+.about-text {
+  font-size: 1.1em;
+  line-height: 1.6;
 }
