@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { FooterComponent } from './core/layout/footer/footer.component';
+
+import { AuthService } from './core/auth/services/auth.service';
+
 
 
 @Component({
@@ -11,5 +14,22 @@ import { FooterComponent } from './core/layout/footer/footer.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+
+
+export class AppComponent implements OnInit {
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.checkSession().subscribe(user => {
+      if (user && user.email) {
+        console.log('Sessione valida per:', user.email);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', user.email);
+      } else {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userEmail');
+        console.log('Sessione non valida: rimosso stato login');
+      }
+    });
+  }
 }
