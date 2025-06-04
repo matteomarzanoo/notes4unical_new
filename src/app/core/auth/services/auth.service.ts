@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -52,18 +53,9 @@ login(email: string, password: string): Observable<any> {
 
 
   //LOGOUT
-logout(): void {
-  this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).subscribe({
-    next: () => {
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('token');
-      localStorage.removeItem('isAdmin');
-    },
-    error: err => {
-      console.error('Errore durante il logout:', err);
-    }
-  });
-}
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
+  }
 
 
   //CONTROLLO SE L'UTENTE È LOGGATO
@@ -74,4 +66,14 @@ logout(): void {
   isAdmin(): boolean {
     return localStorage.getItem('isAdmin') === 'true';
   }
+
+checkSession() {
+  return this.http.get<any>(`${this.apiUrl}/check-session`, { withCredentials: true })
+    .pipe(
+      catchError(err => {
+        // Se errore (es. 401), ritorna un errore che arriva all’error handler del subscribe
+        return of(null); // oppure throwError(err) se vuoi gestire diversamente
+      })
+    );
+}
 }

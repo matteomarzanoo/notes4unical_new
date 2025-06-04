@@ -2,6 +2,7 @@ import { Component, Renderer2, DoCheck } from '@angular/core';
 import { Router, NavigationEnd, RouterModule, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ export class HeaderComponent implements DoCheck {
   isHovered = false;
   user: any = null;
 
-  constructor(private renderer: Renderer2, private router: Router) {
+  constructor(private renderer: Renderer2, private router: Router, private authService: AuthService) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -59,10 +60,24 @@ export class HeaderComponent implements DoCheck {
     this.isHovered = false;
   }
 
-  logout(event: Event) {
+ logout(event: Event) {
     event.preventDefault();
-    localStorage.removeItem('user');
-    this.user = null;
-    this.router.navigate(['/login']);
+
+    this.authService.logout().subscribe({
+      next: () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAdmin');
+
+        this.user = null;
+        console.log('Logout effettuato, stato pulito');
+        this.router.navigate(['/login']);
+      },
+      error: (err: any) => {
+        console.error('Errore durante il logout:', err);
+      }
+    });
   }
 }
