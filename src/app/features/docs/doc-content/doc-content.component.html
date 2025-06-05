@@ -11,7 +11,7 @@
   </section>
 
   <footer class="doc-actions">
-    <button type="button" [disabled]="!auth.isLoggedIn()" (click)="onDownload()">Download</button>
+    <button type="button" [disabled]="!this.authService.isLoggedIn()" (click)="onDownload()">Download</button>
     <button type="button" (click)="onBack()">Back</button>
   </footer>
 </main>

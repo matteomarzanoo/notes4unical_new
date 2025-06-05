@@ -12,12 +12,12 @@ import { AuthService } from '../../../core/auth/services/auth.service';
 })
 export class DocContentComponent {
   doc!: Doc;
-  auth = inject(AuthService);
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private docService: DocService,
+    protected authService: AuthService
   ) {
     this.route.queryParams.subscribe(_ => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -25,23 +25,10 @@ export class DocContentComponent {
       }
     });
 
-    console.log('User auth? -> ' + this.auth.isLoggedIn());
+    console.log('User auth? -> ' + this.authService.isLoggedIn());
   }
 
   onDownload() {
-    this.docService.downloadDoc(this.doc.id!)
-      .subscribe(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'filename.ext';
-        document.body.appendChild(a);
-        a.click();
-
-        // Pulizia
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      })
   }
   
   onBack() {

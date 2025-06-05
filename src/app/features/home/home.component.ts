@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DocService } from '../../features/docs/shared/doc.service';
+import { AuthService } from '../../core/auth/services/auth.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,10 @@ import { DocService } from '../../features/docs/shared/doc.service';
 export class HomeComponent implements OnInit {
   documents: any[] = [];
 
-  constructor(private documentService: DocService) {}
+  constructor(
+    private documentService: DocService,
+    private test: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.documentService.getValidDocs().subscribe(

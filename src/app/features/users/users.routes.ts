@@ -8,7 +8,7 @@ import { UserSettingsComponent } from "./user/user-settings/user-settings.compon
 
 
 export const USERS_ROUTES: Routes = [
-    { path: '', component: UserComponent, canActivate: [AuthGuard] },
+    { path: '', component: UserComponent, canActivate: [AuthGuard]},
     { path: ':name', component: UserComponent, canActivate: [AuthGuard] },
     { path: ':name/settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
     { path: ':name/docs', component: UserDocsComponent, canActivate: [AuthGuard] },

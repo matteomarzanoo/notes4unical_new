@@ -5,10 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-docs',
   imports: [RouterOutlet],
   template: `
-    <p>
-      <router-outlet />
-    </p>
+    <router-outlet />
   `,
-  styles: ``
 })
 export class DocsComponent {}

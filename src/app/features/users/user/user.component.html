@@ -1,25 +1,46 @@
+<div style="margin-top: 40px;"></div>
 <div class="split-left">
-    <!-- Import NgOptimizedImage-->
-    <h1>Hi, {{ test.name }}</h1>
+    <img 
+        ngSrc="user_avatar.jpg" 
+        fill 
+        priority>
+    <h1>Welcome Back, {{ currentUser.name }} {{ currentUser.surname }}!</h1>
     <button (click)="goToSettings()">Settings</button>
 </div>
 
 <hr>
 
 <div class="split-right">
-
     <div class="message-box">
+        <h2>Message</h2>
         <ul>
-            <li>Test</li>
+            @for (item of items; track $index) {
+                <li></li>
+            } @empty {
+                <p>There are no new messages</p>
+            }
         </ul>
     </div>
 
     <div class="docs-box">
-
+        <h2>Personal Documents</h2>
+        <ul>
+            @for (item of items; track $index) {
+                <li></li>
+            } @empty {
+                <p>There are no new messages</p>
+            }
+        </ul>
     </div>
 
     <div class="fav-box">
-
+        <h2>Favorites</h2>
+        <ul>
+            @for (item of items; track $index) {
+                <li></li>
+            } @empty {
+                <p>There are no new messages</p>
+            }
+        </ul>
     </div>
-
 </div>

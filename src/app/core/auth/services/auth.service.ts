@@ -10,45 +10,47 @@ import { catchError } from 'rxjs/operators';
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/users'; // prefisso corretto
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient
+  ) { }
 
   // LOGIN
-login(email: string, password: string): Observable<any> {
-  const body = new HttpParams()
-    .set('email', email)
-    .set('password', password);
+  login(email: string, password: string): Observable<any> {
+    const body = new HttpParams()
+      .set('email', email)
+      .set('password', password);
 
-  const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-  return this.http.post(`${this.apiUrl}/login`, body.toString(), {
-    headers: headers,
-    withCredentials: true
-  }).pipe(
-    tap((response: any) => {
-      // Salva in localStorage i dati dell’utente appena ricevuti dal backend
-      localStorage.setItem('user', JSON.stringify(response));
-      // Puoi anche settare il flag di login se vuoi
-      localStorage.setItem('isLoggedIn', 'true');
-      console.log(response);
-    })
-  );
-}
+    return this.http.post(`${this.apiUrl}/login`, body.toString(), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      tap((response: any) => {
+        // Salva in localStorage i dati dell’utente appena ricevuti dal backend
+        localStorage.setItem('user', JSON.stringify(response));
+        // Puoi anche settare il flag di login se vuoi
+        localStorage.setItem('isLoggedIn', 'true');
+        console.log(response);
+      })
+    );
+  }
 
 
 
   // REGISTRAZIONE
- register(email: string, nome: string, cognome: string, password: string, corsoDiStudio: string) {
-  const utente = {
-    email: email,
-    name: nome,                
-    surname: cognome,       
-    password: password,
-    faculty: corsoDiStudio   
-  };
-  return this.http.post('http://localhost:8080/api/users/register', utente, {
-    withCredentials: true // importante se usi sessione/cookie
-  });
-}
+  register(email: string, nome: string, cognome: string, password: string, corsoDiStudio: string) {
+    const utente = {
+      email: email,
+      name: nome,                
+      surname: cognome,       
+      password: password,
+      faculty: corsoDiStudio   
+    };
+    return this.http.post('http://localhost:8080/api/users/register', utente, {
+      withCredentials: true // importante se usi sessione/cookie
+    });
+  }
 
 
 
@@ -67,13 +69,18 @@ login(email: string, password: string): Observable<any> {
     return localStorage.getItem('isAdmin') === 'true';
   }
 
-checkSession() {
-  return this.http.get<any>(`${this.apiUrl}/check-session`, { withCredentials: true })
-    .pipe(
-      catchError(err => {
-        // Se errore (es. 401), ritorna un errore che arriva all’error handler del subscribe
-        return of(null); // oppure throwError(err) se vuoi gestire diversamente
-      })
-    );
-}
+  checkSession() {
+    return this.http.get<any>(`${this.apiUrl}/check-session`, { withCredentials: true })
+      .pipe(
+        catchError(err => {
+          // Se errore (es. 401), ritorna un errore che arriva all’error handler del subscribe
+          return of(null); // oppure throwError(err) se vuoi gestire diversamente
+        })
+      );
+  }
+
+  getUser() {
+    return this.http.get<any>(`${this.apiUrl}/me`, { withCredentials: true })
+      .pipe(tap((user) => console.log('Retrived user -> ' + user)));
+  }
 }

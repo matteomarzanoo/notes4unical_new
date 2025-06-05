@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { FooterComponent } from './core/layout/footer/footer.component';
-
 import { AuthService } from './core/auth/services/auth.service';
-
-
 
 @Component({
   selector: 'app-root',
@@ -26,8 +23,7 @@ export class AppComponent implements OnInit {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userEmail', user.email);
       } else {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userEmail');
+        localStorage.clear();
         console.log('Sessione non valida: rimosso stato login');
       }
     });

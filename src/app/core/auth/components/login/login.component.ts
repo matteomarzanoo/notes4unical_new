@@ -1,6 +1,8 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs';
+import { User } from '../../../../features/users/shared/users';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,11 @@ export class LoginComponent implements AfterViewInit {
   @ViewChild('email') emailInput!: ElementRef;
   @ViewChild('password') passwordInput!: ElementRef;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService, 
+    private router: Router, 
+    private route: ActivatedRoute
+  ) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -34,20 +40,18 @@ export class LoginComponent implements AfterViewInit {
       return;
     }
 
-this.authService.login(username, password).subscribe(
-  response => {
-    console.log('Login riuscito:', response);
-    // Qui puoi salvare solo info essenziali:
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('userEmail', username);
-    alert('Login effettuato con successo!');
-    this.router.navigate(['/']);
-  },
-  error => {
-    console.error('Errore di login:', error);
-    alert('Credenziali errate!');
-  }
-);
-
+    this.authService.login(username, password)
+      .pipe(tap(() => console.log('Login effettuato con successo')))
+      .subscribe((user: User) => {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', username);
+        this.router.navigate(['/user', user.name.toLowerCase()], {
+          state: { activeUser: user },
+          relativeTo: this.route
+        })
+      }, (err) => {
+        console.error('Errore di login:', err);
+        alert('Credenziali errate!');
+      })
   }
 }

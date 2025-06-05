@@ -16,13 +16,17 @@ export class HeaderComponent implements DoCheck {
   isHovered = false;
   user: any = null;
 
-  constructor(private renderer: Renderer2, private router: Router, private authService: AuthService) {
+  constructor(
+    private renderer: Renderer2, 
+    private router: Router, 
+    private authService: AuthService
+  ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.isHomePage = event.urlAfterRedirects === '/';
     });
-
+    
     this.loadUser();
   }
 
