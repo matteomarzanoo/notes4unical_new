@@ -1,6 +1,9 @@
 ## Things to Fix
 ### Docs
-- [ ] DocUploadContent that redirect to DocContent? uh?
-- [ ] Users always logged so anyone can download 🙂
-- [ ] Send a mf file for Donwload
-- [ ] Fix logout after login and travers /user
+- [X] DocUploadContent that redirect to DocContent
+- [X] Using back() on routing for going back
+- [X] Fixing uploadDoc
+- [X] Change to localStorage to sessionStorage 
+- [X] Download documents (Half)
+- [X] Header routing
+- [ ] Create endpoint for changing password

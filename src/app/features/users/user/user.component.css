@@ -1,0 +1,98 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+  gap: 2.5rem;
+}
+
+.split-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 220px;
+  max-width: 320px;
+  padding: 2rem 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  gap: 1.2rem;
+}
+
+.split-left h1 {
+  font-size: 1.5rem;
+  color: #1976d2;
+  margin: 0 0 0.5em 0;
+  font-weight: bold;
+}
+
+.split-left button {
+  padding: 0.6em 1.2em;
+  border: none;
+  border-radius: 4px;
+  background: #1976d2;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.split-left button:hover {
+  background: #0d47a1;
+}
+
+.split-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1 1 0;
+  min-width: 320px;
+}
+
+.message-box,
+.docs-box,
+.fav-box {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 1.5rem 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.message-box h2,
+.docs-box h2,
+.fav-box h2 {
+  font-size: 1.2rem;
+  color: #800020;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+ul {
+  list-style: disc inside;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5em;
+}
+
+@media (max-width: 900px) {
+  :host {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  .split-left, .split-right {
+    max-width: 100%;
+    min-width: unset;
+    padding: 1.2rem;
+  }
+}

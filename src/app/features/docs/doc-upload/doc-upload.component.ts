@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { DocService } from '../shared/doc.service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { docGuard } from '../shared/doc.guard';
 
 @Component({
   selector: 'app-doc-upload',
@@ -10,14 +11,18 @@ import { NgIf } from '@angular/common';
   templateUrl: './doc-upload.component.html',
   styleUrls: ['./doc-upload.component.css']
 })
-export class DocUploadComponent {
+export class DocUploadComponent implements OnDestroy {
 
   uploadSuccess = false;
   
   constructor(
-    private readonly docService: DocService,
-    private readonly router: Router
+    private docService: DocService,
+    private router: Router
   ) {}
+  
+  ngOnDestroy(): void {
+    this.uploadDoc.reset();
+  }
 
   private builder = inject(NonNullableFormBuilder);
 
@@ -34,7 +39,7 @@ export class DocUploadComponent {
     convertedInput.append('name', String(this.uploadDoc.value.name));
     convertedInput.append('description', String(this.uploadDoc.value.description));
     convertedInput.append('course', String(this.uploadDoc.value.course));
-    this.docService.addDoc(convertedInput);
+    this.docService.addDoc(convertedInput).subscribe();
 
     this.uploadSuccess = true;
     setTimeout(() => {
@@ -47,6 +52,12 @@ export class DocUploadComponent {
   }
 
   delOngoing() {
-    this.router.navigate(['/'])
+  }
+
+  canExit() {
+    if (!this.uploadDoc.pristine) {
+      return confirm('You want to leave unsaved document?'); 
+    }
+    return true;
   }
 }

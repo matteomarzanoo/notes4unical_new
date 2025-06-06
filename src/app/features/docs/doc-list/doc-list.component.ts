@@ -3,7 +3,7 @@ import { DocService } from '../shared/doc.service';
 import { DocComponent } from "../doc/doc.component";
 import { Observable, Subject, debounceTime, switchMap, distinctUntilChanged, startWith } from 'rxjs';
 import { Doc } from '../shared/doc';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { map } from 'rxjs/operators';
 
@@ -20,14 +20,13 @@ export class DocListComponent implements OnInit, OnDestroy {
 
   constructor(
     private docService: DocService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    const allDocs$ = this.docService.getAllDocs()
-        .pipe(
-     map(docs => docs.slice().reverse().slice(0, 10)) // ultimi 10 docuemnrti inseriti
+    const allDocs$ = this.docService.getDocs()
+      .pipe(
+        map(docs => docs.slice().reverse().slice(0, 10))
     );
 
     this.docs$ = this.searchTerms
@@ -35,10 +34,7 @@ export class DocListComponent implements OnInit, OnDestroy {
         startWith(''),
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(term => term.trim()
-          ? this.docService.searchDocs(term)
-          : allDocs$
-        )
+        switchMap(term => term.trim() ? this.docService.searchDocs(term) : allDocs$)
       );
   }
 
@@ -52,6 +48,6 @@ export class DocListComponent implements OnInit, OnDestroy {
   }
 
   goToUpload(): void {
-    this.router.navigate(['upload'], { relativeTo: this.route });
+    this.router.navigateByUrl('docs/upload');
   }
 }

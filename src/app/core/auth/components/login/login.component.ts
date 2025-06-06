@@ -1,24 +1,20 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User } from '../../../../features/users/shared/users';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
+  imports: [RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements AfterViewInit {
+  
   @ViewChild('email') emailInput!: ElementRef;
   @ViewChild('password') passwordInput!: ElementRef;
 
-  constructor(
-    private authService: AuthService, 
-    private router: Router, 
-    private route: ActivatedRoute
-  ) { }
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -36,22 +32,17 @@ export class LoginComponent implements AfterViewInit {
     const password = this.passwordInput.nativeElement.value;
 
     if (!username.endsWith('@studenti.unical.it')) {
-      alert("L'email deve essere del dominio @studenti.unical.it");
-      return;
+      return alert("L'email deve essere del dominio @studenti.unical.it");
     }
 
     this.authService.login(username, password)
-      .pipe(tap(() => console.log('Login effettuato con successo')))
-      .subscribe((user: User) => {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userEmail', username);
-        this.router.navigate(['/user', user.name.toLowerCase()], {
-          state: { activeUser: user },
-          relativeTo: this.route
-        })
-      }, (err) => {
-        console.error('Errore di login:', err);
-        alert('Credenziali errate!');
-      })
+      .subscribe({
+        next: (user: User) => {
+          sessionStorage.setItem('user', JSON.stringify(user)),
+          sessionStorage.setItem('isLoggedIn', 'true'),
+          this.router.navigate(['/user', user.name.toLowerCase()], { state: { activeUser: user }})
+        },
+        error: () => { alert('Credenziali errate!') }
+      });
   }
 }

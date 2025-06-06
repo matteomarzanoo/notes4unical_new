@@ -1,36 +1,55 @@
 import { Injectable } from '@angular/core';
 import { Doc } from './doc';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of, retry, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocService {
+
+  private readonly openApi = 'api/open';
+  private readonly authApi = 'api/auth';
   
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
   /**
-   * GET docs from the server with an open API
+   * GET docs from the server
    */
-  getAllDocs() : Observable<Doc[]> {
-    return this.http.get<Doc[]>('http://localhost:8080/api/open/documents')
-      .pipe(tap(_ => console.log(`DEBUG TAP --> The elements were retrieved from the server`)));
+  getDocs(): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents`)
+      .pipe(
+        retry(3),
+        tap((list) => console.log(list))
+      )
   }
   /**
-   * GET doc by id from the server with an authenticated account
+   * GET doc by id from the server
    */
-  getDoc(id: number) : Observable<Doc> {
-    return this.http.get<Doc>(`http://localhost:8080/api/auth/documents/${id}`)
-      .pipe(tap(el => console.log(`DEBUG TAP --> The element ${el} was retrieved from the server`)));
+  getDoc(id: number): Observable<Doc> {
+    return this.http.get<Doc>(`http://localhost:8080/${this.authApi}/documents/${id}`, { withCredentials: true })
+      .pipe(
+        retry(3),
+        tap(doc => console.log(doc))
+      );
+  }
+  /**
+   * GET docs of certain user
+   */
+  getUserDocs(userId: number): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.authApi}/documents/user/${userId}`, { withCredentials: true })
+      .pipe(
+        retry(3),
+        tap(userDocs => console.log(userDocs))
+      )
   }
   /**
    * GET doc file by id from the server with an authenticated account
    */
   downloadDoc(id: number): Observable<Blob> {
-    return this.http.get(`http://localhost:8080/api/auth/documents/download/${id}`, { responseType: 'blob' })
-      .pipe(tap(el => console.log(el)));
+    return this.http.get(`http://localhost:8080/${this.authApi}/documents/download/${id}`, { responseType: 'blob', withCredentials: true })
+      .pipe(
+        retry(3)
+      );
   }
   /**
    * GET docs whose name contains search term
@@ -39,7 +58,7 @@ export class DocService {
     if (!term.trim()) {
       return of([]);
     }
-    return this.http.get<Doc[]>(`http://localhost:8080/api/open/documents/course/${term}`)
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents/course/${term}`)
       .pipe(
         tap(x => x.length ? console.log(`found docs matching ${term}`) : console.log(`no docs mathing ${term}`))
       )
@@ -48,28 +67,25 @@ export class DocService {
    * POST add a new document to the server
    */
   addDoc(doc: FormData): Observable<FormData> {
-    return this.http.post<FormData>(`http://localhost:8080/api/auth/documents/upload`, doc)
-      .pipe(tap(el => console.log(`The element ${el} was added to the server`)));
+    return this.http.post<FormData>(`http://localhost:8080/${this.authApi}/documents/upload`, doc, { withCredentials: true })
+      .pipe(
+        retry(3),
+        tap(el => console.log(el))
+      );
   }
   /**
    * PUT update the doc on the server
    * TO FIX
    */
   updateDoc(doc: Doc, id: number) : Observable<any> {
-    return this.http.put(`http://localhost:8080//${id}`, doc)
-      .pipe(tap(el => console.log(`The element ${el} was updated on the server`)));
+    return this.http.put(`http://localhost:8080/${this.authApi}/documents/${id}`, doc, { withCredentials: true })
+      .pipe(retry(3));
   }
   /**
    * DELETE delete the doc from the server with an authenticated account
    */
-  deleteDoc(id: number): Observable<any> {
-    return this.http.delete(`http://localhost:8080/api/auth/documents/${id}`)
-      .pipe(tap(el => console.log(`DEBUG TAP --> The element ${el} was deleted from the server`)));
+  deleteDoc(id: number): Observable<unknown> {
+    return this.http.delete<unknown>(`http://localhost:8080/${this.authApi}/documents/${id}`, { withCredentials: true })
+      .pipe(retry(3));
   }
-
-  getValidDocs(): Observable<Doc[]> {
-    return this.http.get<Doc[]>('http://localhost:8080/api/open/documents/valid')
-      .pipe(tap(_ => console.log('📄 Documenti validi ricevuti')));
-  }
-
 }

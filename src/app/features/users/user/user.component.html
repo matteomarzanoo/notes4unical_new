@@ -1,9 +1,5 @@
 <div style="margin-top: 40px;"></div>
 <div class="split-left">
-    <img 
-        ngSrc="user_avatar.jpg" 
-        fill 
-        priority>
     <h1>Welcome Back, {{ currentUser.name }} {{ currentUser.surname }}!</h1>
     <button (click)="goToSettings()">Settings</button>
 </div>
@@ -25,10 +21,25 @@
     <div class="docs-box">
         <h2>Personal Documents</h2>
         <ul>
-            @for (item of items; track $index) {
-                <li></li>
+            <!-- @if (docs$ | async; as docs) {
+                @if (docs.length > 0) {
+                <div class="carousel-track">
+                    @for (doc of docs; track $index) {
+                    <div class="carousel-item">
+                        <app-user-docs [doc]="doc"></app-user-docs>
+                    </div>
+                    } @empty {
+                        <p>There are no personal documents</p>
+                    }
+                </div>
+                } @else {
+                <p class="empty-state">There are no matching documents.</p>
+                }
+            } -->
+            @for (doc of docs; track $index) {
+                <app-user-docs [doc]="doc"></app-user-docs>
             } @empty {
-                <p>There are no new messages</p>
+                <p>There are no personal documents</p>
             }
         </ul>
     </div>
@@ -39,7 +50,7 @@
             @for (item of items; track $index) {
                 <li></li>
             } @empty {
-                <p>There are no new messages</p>
+                <p>There are no favorites</p>
             }
         </ul>
     </div>

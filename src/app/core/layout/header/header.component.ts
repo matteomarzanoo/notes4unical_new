@@ -1,12 +1,11 @@
-import { Component, Renderer2, DoCheck } from '@angular/core';
-import { Router, NavigationEnd, RouterModule, RouterLink } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Component, DoCheck } from '@angular/core';
+import { Router, RouterModule, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/services/auth.service';
+import { User } from '../../../features/users/shared/users'; 
 
 @Component({
   selector: 'app-header',
-  standalone: true,
   imports: [RouterModule, RouterLink, CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
@@ -14,29 +13,27 @@ import { AuthService } from '../../auth/services/auth.service';
 export class HeaderComponent implements DoCheck {
   isHomePage = false;
   isHovered = false;
-  user: any = null;
+  user: User | null = null;
 
-  constructor(
-    private renderer: Renderer2, 
-    private router: Router, 
-    private authService: AuthService
-  ) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      this.isHomePage = event.urlAfterRedirects === '/';
-    });
-    
-    this.loadUser();
+  constructor(private router: Router, private authService: AuthService) { 
+    this.loadUserFromSession();
   }
 
   ngDoCheck() {
-    this.loadUser();
+    this.loadUserFromSession();
   }
 
-  private loadUser() {
-    const storedUser = localStorage.getItem('user');
-    this.user = storedUser ? JSON.parse(storedUser) : null;
+  private loadUserFromSession() {
+    const stored = sessionStorage.getItem('user');
+    if (stored !== null) {
+      try {
+        this.user = JSON.parse(stored) as User;
+      } catch {
+        this.user = null;
+      }
+    } else {
+      this.user = null;
+    }
   }
 
   toggleTheme(event: any) {
@@ -69,19 +66,29 @@ export class HeaderComponent implements DoCheck {
 
     this.authService.logout().subscribe({
       next: () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('token');
-        localStorage.removeItem('isAdmin');
-
-        this.user = null;
-        console.log('Logout effettuato, stato pulito');
+        sessionStorage.clear(),
+        console.log('Logout request sended. sessionStorage cleared');
         this.router.navigate(['/login']);
       },
       error: (err: any) => {
-        console.error('Errore durante il logout:', err);
+        console.error('Error logout\'s request:', err);
       }
     });
+  }
+
+  goToFavorites() {
+    if (this.authService.isLoggedIn() === 'true' && this.user) {
+      this.router.navigate(['/user', this.user.name.toLowerCase(), 'favorites'], { state: { activeUser: this.user }});
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  goToUser() {
+    if (this.authService.isLoggedIn() === 'true' && this.user) {
+      this.router.navigate(['/user', this.user.name.toLowerCase()], { state: { activeUser: this.user }});
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

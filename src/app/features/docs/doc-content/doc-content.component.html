@@ -1,7 +1,7 @@
 <main class="doc-content-card">
   <header class="doc-header">
     <h1>{{ doc.name }}</h1>
-    <h2>Autore: <span class="highlight">{{ doc.user_id }}</span></h2>
+    <h2>Autore: <span class="highlight">{{ doc.id }}</span></h2>
     <h3>Corso: <span class="highlight">{{ doc.course }}</span></h3>
   </header>
 
@@ -11,7 +11,7 @@
   </section>
 
   <footer class="doc-actions">
-    <button type="button" [disabled]="!this.authService.isLoggedIn()" (click)="onDownload()">Download</button>
+    <button type="button" [disabled]="this.authService.isLoggedIn() == null" (click)="onDownload()">Download</button>
     <button type="button" (click)="onBack()">Back</button>
   </footer>
 </main>

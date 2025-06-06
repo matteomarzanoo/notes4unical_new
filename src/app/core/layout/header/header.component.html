@@ -1,17 +1,17 @@
 <header
   [class.shrinked]="!isHomePage && !isHovered"
   (mouseenter)="onMouseEnter()"
-  (mouseleave)="onMouseLeave()"
->
+  (mouseleave)="onMouseLeave()">
+  
   <div class="logo">
-    <h1><a routerLink="/">NOTES4UNICAL</a></h1>
+    <h1>
+      <a routerLink="/">NOTES4UNICAL</a>
+    </h1>
   </div>
 
   <nav>
-          <!-- Qui metti "Ciao, nome" se loggato -->
-      <span class="greeting" *ngIf="user">Ciao, {{ user.name }}</span>
-
-      
+    <span class="greeting" *ngIf="user">Ciao, {{ user.name }}</span>
+  
     <div class="toggle-container">
       <label class="switch">
         <input type="checkbox" class="switch-input" (change)="toggleTheme($event)">
@@ -20,14 +20,12 @@
           <i class="bi bi-moon-fill moon-icon"></i>
         </span>
       </label>
-
-
     </div>
 
-    <a routerLink="/preferiti">Preferiti</a>
-    <a routerLink="/user">Profilo</a>
+    <a style="cursor: pointer;" (click)="goToFavorites()">Favorites</a>
+    <a style="cursor: pointer;" (click)="goToUser()">Profile</a>
 
     <a *ngIf="!user" routerLink="/login">Login</a>
-    <a *ngIf="user" href="#" (click)="logout($event)">Logout</a>
+    <a style="cursor: pointer;" *ngIf="user" (click)="logout($event)">Logout</a>
   </nav>
 </header>

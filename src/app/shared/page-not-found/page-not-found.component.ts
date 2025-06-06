@@ -57,6 +57,4 @@ import { RouterLink } from '@angular/router';
     }
   `
 })
-export class PageNotFoundComponent {
-
-}
+export class PageNotFoundComponent {}

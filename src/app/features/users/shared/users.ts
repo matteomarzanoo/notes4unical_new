@@ -1,6 +1,7 @@
 import { UserRole } from "../../../core/auth/model/user-role"
 
 export interface User {
+    id?: number,
     name: string,
     surname: string,
     email: string,
@@ -9,6 +10,7 @@ export interface User {
 }
 
 export interface Admin {
+    id?: number,
     name: string,
     surname: string,
     email: string,

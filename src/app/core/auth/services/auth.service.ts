@@ -1,44 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, tap } from 'rxjs';
-import { HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
+import { retry } from 'rxjs/operators';
+import { User } from '../../../features/users/shared/users';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/users'; // prefisso corretto
+  
+  private loginApi = 'api/users';
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  // LOGIN
+  constructor(private http: HttpClient) { }
+  /**
+   * Send a login request to the server
+   */
   login(email: string, password: string): Observable<any> {
     const body = new HttpParams()
       .set('email', email)
       .set('password', password);
 
-    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-
-    return this.http.post(`${this.apiUrl}/login`, body.toString(), {
-      headers: headers,
-      withCredentials: true
-    }).pipe(
-      tap((response: any) => {
-        // Salva in localStorage i dati dell’utente appena ricevuti dal backend
-        localStorage.setItem('user', JSON.stringify(response));
-        // Puoi anche settare il flag di login se vuoi
-        localStorage.setItem('isLoggedIn', 'true');
-        console.log(response);
-      })
-    );
+    return this.http.post<any>(`http://localhost:8080/${this.loginApi}/login`, body.toString(), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true }) 
   }
-
-
-
-  // REGISTRAZIONE
+  /**
+   * Send a logout request to the backend
+   */
+  logout(): Observable<any> {
+    return this.http.post(`http://localhost:8080/${this.loginApi}/logout`, {}, { withCredentials: true });
+  }
+  /**
+   * Send the form for the actual registration on the server
+   */
   register(email: string, nome: string, cognome: string, password: string, corsoDiStudio: string) {
     const utente = {
       email: email,
@@ -47,40 +40,40 @@ export class AuthService {
       password: password,
       faculty: corsoDiStudio   
     };
-    return this.http.post('http://localhost:8080/api/users/register', utente, {
-      withCredentials: true // importante se usi sessione/cookie
-    });
+    return this.http.post('http://localhost:8080/api/users/register', utente, { withCredentials: true });
   }
-
-
-
-  //LOGOUT
-  logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
+  /**
+   * Check if user is logged in
+   */
+  isLoggedIn() {
+    return sessionStorage.getItem('isLoggedIn');
   }
-
-
-  //CONTROLLO SE L'UTENTE È LOGGATO
-  isLoggedIn(): boolean {
-    return localStorage.getItem('isLoggedIn') === 'true';
+  /**
+   * Check if user is an admin
+   */
+  isAdmin() {
+    return sessionStorage.getItem('isAdmin');
   }
-
-  isAdmin(): boolean {
-    return localStorage.getItem('isAdmin') === 'true';
-  }
-
+  /**
+   * Check the actual session
+   */
   checkSession() {
-    return this.http.get<any>(`${this.apiUrl}/check-session`, { withCredentials: true })
+    return this.http.get<User>(`http://localhost:8080/${this.loginApi}/check-session`, { withCredentials: true })
       .pipe(
-        catchError(err => {
-          // Se errore (es. 401), ritorna un errore che arriva all’error handler del subscribe
-          return of(null); // oppure throwError(err) se vuoi gestire diversamente
-        })
+        retry(3),
       );
   }
-
+  /**
+   * GET the current user from server
+   */
   getUser() {
-    return this.http.get<any>(`${this.apiUrl}/me`, { withCredentials: true })
+    return this.http.get<User>(`http://localhost:8080/${this.loginApi}/me`, { withCredentials: true })
       .pipe(tap((user) => console.log('Retrived user -> ' + user)));
+  }
+  /**
+   * 
+   */
+  getLocalUser() {
+    const user = sessionStorage.getItem('')
   }
 }
