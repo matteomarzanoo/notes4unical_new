@@ -39,8 +39,8 @@
             placeholder="Describe your document here..."></textarea>
         </label>
 
-        <button [disabled]="!uploadDoc.valid">Upload</button>
-        <button type="button" (click)="canExit()">Cancel</button>
+        <button type="button" [disabled]="!uploadDoc.valid" (click)="onLoad()">Upload</button>
+        <button type="button" (click)="back()">Cancel</button>
       </form>
     </ng-container>
     <ng-template #successScreen>

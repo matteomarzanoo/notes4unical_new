@@ -20,7 +20,8 @@ export class DocContentComponent {
     private route: ActivatedRoute,
     protected authService: AuthService,
     private location: Location,
-    private docService: DocService
+    private docService: DocService,
+    private sanitazier: DomSanitizer
   ) {
     this.route.queryParams.subscribe(_ => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -33,17 +34,19 @@ export class DocContentComponent {
     this.docService.downloadDoc(this.doc.id!)
       .subscribe({
         next: (file) => {
-          console.log('start download:', file);
-          var url = window.URL.createObjectURL(file);
-          var a = document.createElement('a');
-          document.body.appendChild(a);
-          a.setAttribute('style', 'display: none');
+          console.log(file);
+          const byteCharacters = atob(file.base64Content);
+          const byteNumbers = Array.from(byteCharacters, c => c.charCodeAt(0));
+          const byteArray = new Uint8Array(byteNumbers);
+
+          const blob = new Blob([byteArray]);
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
           a.href = url;
-          a.download = 'test.doc';
+          a.download = file.fileName || 'downloaded_file' + (file.fileExtension ? '.' + file.fileExtension : '');
           a.click();
           window.URL.revokeObjectURL(url);
-          a.remove();
-        }
+          }
       });
   }
   

@@ -24,7 +24,7 @@ export class DocListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    const allDocs$ = this.docService.getDocs()
+    const allDocs$ = this.docService.getDocsValid()
       .pipe(
         map(docs => docs.slice().reverse().slice(0, 10))
     );

@@ -2,8 +2,8 @@ import { Component, inject, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { DocService } from '../shared/doc.service';
 import { Router } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { docGuard } from '../shared/doc.guard';
+import { Location, NgIf } from '@angular/common';
+import { ActiveUserService } from '../../users/shared/active-user.service';
 
 @Component({
   selector: 'app-doc-upload',
@@ -15,18 +15,13 @@ export class DocUploadComponent implements OnDestroy {
 
   uploadSuccess = false;
   
-  constructor(
-    private docService: DocService,
-    private router: Router
-  ) {}
+  constructor(private docService: DocService, private router: Router, private location: Location, private currentUser: ActiveUserService) { }
   
   ngOnDestroy(): void {
     this.uploadDoc.reset();
   }
 
-  private builder = inject(NonNullableFormBuilder);
-
-  uploadDoc = this.builder.group({
+  uploadDoc = inject(NonNullableFormBuilder).group({
     file: new FormControl<File | null>(null, Validators.required),
     name: new FormControl<string>('', [Validators.minLength(1), Validators.maxLength(200), Validators.required]),
     description: new FormControl<string>('', [Validators.minLength(1), Validators.maxLength(1000), Validators.required]),
@@ -39,7 +34,9 @@ export class DocUploadComponent implements OnDestroy {
     convertedInput.append('name', String(this.uploadDoc.value.name));
     convertedInput.append('description', String(this.uploadDoc.value.description));
     convertedInput.append('course', String(this.uploadDoc.value.course));
-    this.docService.addDoc(convertedInput).subscribe();
+    convertedInput.append('user_id', String(this.currentUser.getUser()!.id))
+    this.docService.addDoc(convertedInput)
+      .subscribe();
 
     this.uploadSuccess = true;
     setTimeout(() => {
@@ -51,7 +48,8 @@ export class DocUploadComponent implements OnDestroy {
     this.uploadDoc.patchValue({ file: (event.target as HTMLInputElement).files?.[0] });
   }
 
-  delOngoing() {
+  back() {
+    this.location.back()
   }
 
   canExit() {

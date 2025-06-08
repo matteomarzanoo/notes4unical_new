@@ -1,1 +1,25 @@
-<p>user-settings works!</p>
+<div style="margin-top: 40px;"></div>
+
+<form [formGroup]="userInfo">
+    <label for="name">
+        Name
+        <input type="text" id="name" formControlName="name" />
+    </label>
+
+    <label for="surname">
+        Surname
+        <input type="text" id="surname" formControlName="surname" />
+    </label>
+
+    <label for="email">
+        Email
+        <input type="text" id="email" formControlName="email" />
+    </label>
+
+    <label for="faculty">
+        Course
+        <input type="text" id="faculty" formControlName="faculty" />
+    </label>
+</form>
+
+<button type="button" (click)="goToChangePwd()">Change Password</button>

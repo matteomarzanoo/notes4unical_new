@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Doc } from '../../../docs/shared/doc';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { ActiveUserService } from '../../shared/active-user.service';
 
 @Component({
   selector: 'app-user-docs',
@@ -54,12 +56,10 @@ import { Router, ActivatedRoute } from '@angular/router';
   `
 })
 export class UserDocsComponent {
+  
   @Input() doc!: Doc;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   goToDoc() {
     this.router.navigate(['docs', this.doc.id], { state: { docTaken: this.doc }})

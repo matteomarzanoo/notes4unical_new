@@ -1,27 +1,18 @@
 <div style="margin-top: 40px;"></div>
 <div class="split-left">
     <h1>Welcome Back, {{ currentUser.name }} {{ currentUser.surname }}!</h1>
+    <button (click)="goToUpload()">Upload a Document</button>
     <button (click)="goToSettings()">Settings</button>
 </div>
 
 <hr>
 
 <div class="split-right">
-    <div class="message-box">
-        <h2>Message</h2>
-        <ul>
-            @for (item of items; track $index) {
-                <li></li>
-            } @empty {
-                <p>There are no new messages</p>
-            }
-        </ul>
-    </div>
-
     <div class="docs-box">
         <h2>Personal Documents</h2>
+        <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'list']">View All</a>
         <ul>
-            <!-- @if (docs$ | async; as docs) {
+            @if (docs$ | async; as docs) {
                 @if (docs.length > 0) {
                 <div class="carousel-track">
                     @for (doc of docs; track $index) {
@@ -33,24 +24,20 @@
                     }
                 </div>
                 } @else {
-                <p class="empty-state">There are no matching documents.</p>
+                <p class="empty-state">There are no personal documents at the moment</p>
                 }
-            } -->
-            @for (doc of docs; track $index) {
-                <app-user-docs [doc]="doc"></app-user-docs>
-            } @empty {
-                <p>There are no personal documents</p>
             }
         </ul>
     </div>
 
     <div class="fav-box">
         <h2>Favorites</h2>
+        <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'favorites']">View All</a>
         <ul>
             @for (item of items; track $index) {
                 <li></li>
             } @empty {
-                <p>There are no favorites</p>
+                <p>There are no favorites at the moment</p>
             }
         </ul>
     </div>

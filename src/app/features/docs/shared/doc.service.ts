@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Doc } from './doc';
+import { Doc, DocFile } from './doc';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, retry, tap } from 'rxjs';
 
@@ -15,8 +15,8 @@ export class DocService {
   /**
    * GET docs from the server
    */
-  getDocs(): Observable<Doc[]> {
-    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents`)
+  getDocsValid(): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents/valid`)
       .pipe(
         retry(3),
         tap((list) => console.log(list))
@@ -45,8 +45,8 @@ export class DocService {
   /**
    * GET doc file by id from the server with an authenticated account
    */
-  downloadDoc(id: number): Observable<Blob> {
-    return this.http.get(`http://localhost:8080/${this.authApi}/documents/download/${id}`, { responseType: 'blob', withCredentials: true })
+  downloadDoc(id: number): Observable<DocFile> {
+    return this.http.get<DocFile>(`http://localhost:8080/${this.authApi}/documents/download-json/${id}`, { withCredentials: true })
       .pipe(
         retry(3)
       );
