@@ -1,44 +1,47 @@
-<div style="margin-top: 40px;"></div>
-<div class="split-left">
-    <h1>Welcome Back, {{ currentUser.name }} {{ currentUser.surname }}!</h1>
-    <button (click)="goToUpload()">Upload a Document</button>
-    <button (click)="goToSettings()">Settings</button>
+<div id="mainHome" style="margin-top: 40px;"></div>
+
+<div id="userSidebar" class="split-left">
+  <h1 id="welcomeTitle">Welcome Back, {{ currentUser.name }} {{ currentUser.surname }}!</h1>
+  <button (click)="goToUpload()">Upload a Document</button>
+  <button (click)="goToSettings()">Settings</button>
 </div>
 
-<hr>
+<hr id="dividerLine" />
 
-<div class="split-right">
-    <div class="docs-box">
-        <h2>Personal Documents</h2>
-        <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'list']">View All</a>
-        <ul>
-            @if (docs$ | async; as docs) {
-                @if (docs.length > 0) {
-                <div class="carousel-track">
-                    @for (doc of docs; track $index) {
-                    <div class="carousel-item">
-                        <app-user-docs [doc]="doc"></app-user-docs>
-                    </div>
-                    } @empty {
-                        <p>There are no personal documents</p>
-                    }
-                </div>
-                } @else {
-                <p class="empty-state">There are no personal documents at the moment</p>
-                }
-            }
-        </ul>
-    </div>
+<div id="userContent" class="split-right">
 
-    <div class="fav-box">
-        <h2>Favorites</h2>
-        <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'favorites']">View All</a>
-        <ul>
-            @for (item of items; track $index) {
-                <li></li>
-            } @empty {
-                <p>There are no favorites at the moment</p>
-            }
-        </ul>
-    </div>
+  <div id="documentSection" class="docs-box">
+    <h2 id="h2recent">Personal Documents</h2>
+    <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'list']">View All</a>
+    <ul>
+      @if (docs$ | async; as docs) {
+        @if (docs.length > 0) {
+        <div id="carouselDocs" class="carousel-track">
+          @for (doc of docs; track $index) {
+          <div class="carousel-item">
+            <app-user-docs [doc]="doc"></app-user-docs>
+          </div>
+          } @empty {
+            <p id="noDocsMessage">There are no personal documents</p>
+          }
+        </div>
+        } @else {
+        <p class="empty-state">There are no personal documents at the moment</p>
+        }
+      }
+    </ul>
+  </div>
+
+  <div id="favoritesSection" class="fav-box">
+    <h2>Favorites</h2>
+    <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'favorites']">View All</a>
+    <ul>
+      @for (item of items; track $index) {
+        <li></li>
+      } @empty {
+        <p id="noFavsMessage">There are no favorites at the moment</p>
+      }
+    </ul>
+  </div>
+
 </div>
