@@ -1,105 +1,129 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-}
-
-#mainHome {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* Immagine di sfondo */
+/* Contenitore principale con due slide */
 .hero-section {
   position: relative;
-  background-image: url('fotouni.png'); /* Cambia con il tuo path */
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+  display: flex;
+  transition: transform 1s ease-in-out;
+}
+
+/* Layout a "due slide" affiancate */
+.hero-section .slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out, left 1s ease-in-out;
+}
+
+/* Primo slide visibile di default */
+.hero-section .slide-one {
+  background-image: url('fotouni.png');
   background-size: cover;
   background-position: center;
-  height: 80vh;
+  color: white;
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  text-align: center;
-  overflow: hidden;
 }
 
-/* Velo scuro */
+/* Overlay scuro sullo sfondo */
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgb(96, 91, 91)); /* sfuma verso il bianco */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgb(96, 91, 91));
   z-index: 1;
 }
 
-/* Testo centrale */
+/* Testo */
 .hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  z-index: 1;
+  position: relative;
+  z-index: 2;
   padding: 20px;
   font-size: 1.5rem;
 }
 
-/* Sfuma verso il bianco */
-.fade-out {
-  position: absolute;
-  bottom: 0;
-  height: 70px;
-  width: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #ffffff); /* trasparente → bianco */
-  pointer-events: none;
-  z-index: 2;
+/* Video slide */
+.slide-two {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Parte successiva della pagina */
+/* Slide visibile */
+.hero-section .slide-one,
+.hero-section .slide-two {
+  left: 0;
+  opacity: 1;
+}
+
+/* Solo quando è attiva la seconda slide */
+.hero-section:not(.show-second) .slide-two {
+  left: 100%;
+  opacity: 0;
+}
+
+.hero-section.show-second .slide-one {
+  left: -100%;
+  opacity: 0;
+}
+
+.hero-section.show-second .slide-two {
+  left: 0;
+  opacity: 1;
+}
+
+/* Rimuove la sfumatura in fondo */
+.fade-out {
+  display: none;
+}
+.arrow {
+  all: unset; /* rimuove ogni stile predefinito o ereditato */
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  color: white !important;
+  font-size: 1.5rem !important;
+  border-radius: 50% !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.arrow.left {
+  left: 16px !important;
+}
+
+.arrow.right {
+  right: 16px !important;
+}
+
+.arrow:hover {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+
 .content-section {
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   padding: 60px 20px;
   text-align: center;
-}
-
-.content-section h2 {
-  margin-bottom: 20px;
-  font-size: 2rem;
-}
-
-.button {
-  display: inline-block;
-  padding: 12px 24px;
-  color: rgb(255, 255, 255);
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-
-.about-section {
-  padding: 20px;
-  background-color: #d2d0d0; /* oppure trasparente se in dark mode */
-  border-radius: 10px;
-  margin-bottom: 30px;
-}
-
-.about-title {
-  font-size: 1.4em;
-  margin-bottom: 10px;
-}
-
-.about-text {
-  font-size: 1.1em;
-  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

@@ -37,7 +37,7 @@ export class HeaderComponent implements DoCheck {
   }
 
   toggleTheme(event: any) {
-    const ids = ["mainHome", "h2recent", "header", "footer", "documentSection", "popup", "login-container"];
+    const ids = ["mainHome", "h2recent", "header", "footer", "documentSection", "popup", "login-container", "mainHome", "notes-section"];
     const backgroundColor = event.target.checked ? "rgb(28, 25, 25)" : "white";
     const textColor = event.target.checked ? "white" : "black";
 

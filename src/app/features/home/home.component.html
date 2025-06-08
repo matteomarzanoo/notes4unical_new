@@ -1,7 +1,12 @@
 <main id="mainHome">
-  <div class="hero-section">
-    <div class="overlay"></div>
+ <div class="hero-section" [ngClass]="{'show-second': currentSlide === 1}">
+  <!-- Frecce -->
+  <button class="arrow left" (click)="prevSlide()">‹</button>
+  <button class="arrow right" (click)="nextSlide()">›</button>
 
+  <!-- Primo Slide -->
+  <div class="slide slide-one">
+    <div class="overlay"></div>
     <div class="hero-text">
       <h1>Notes4Unical</h1>
       <p>
@@ -12,13 +17,24 @@
         per affrontare l’università e crescere insieme.
       </p>
     </div>
-
-    <div class="fade-out"></div>
   </div>
 
-  <section class="content-section">
-    <h2>Scopri gli appunti sul sito</h2>
-    <button class="button" (click)="navigateToDocs()">Vai alla sezione appunti</button>
+  <!-- Secondo Slide con autoplay -->
+  <div class="slide slide-two">
+    <iframe
+      width="80%"
+      height="80%"
+      src="https://www.youtube.com/embed/Xl0xjc2qVvw?autoplay=1&mute=1&controls=1"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>
 
-  </section>
+<section id="notes-section" class="content-section">
+  <h2>Scopri gli appunti sul sito</h2>
+  <button class="button" (click)="navigateToDocs()">Vai alla sezione appunti</button>
+</section>
+
 </main>
