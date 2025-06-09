@@ -9,7 +9,7 @@ import { Doc } from '../../docs/shared/doc';
 export class UserService {
 
   private api = 'api/users'
-  private apiLikes = 'api/likes'
+  private apiLikes = 'api/auth/likes'
 
   constructor(private http: HttpClient) { }
   /**
@@ -17,6 +17,12 @@ export class UserService {
    */
   getUser() {
     return this.http.get(`http://localhost:8080/${this.api}/me`);
+  }
+  /**
+   * Return the value for the activeUser key
+   */
+  getUserStorage() {
+    return sessionStorage.getItem('activeUser');
   }
   /**
    * POST create a user through admin's interface

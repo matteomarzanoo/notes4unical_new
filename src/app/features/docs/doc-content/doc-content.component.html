@@ -17,11 +17,11 @@
   </section>
 
   <footer class="doc-actions">
-    <button type="button" [disabled]="this.authService.isLoggedIn() == null" (click)="onDownload()">Download</button>
+    <button type="button" [disabled]="this.currentUser.getUser()" (click)="onDownload()">Download</button>
     <button type="button" (click)="onBack()">Back</button>
     <button type="button" class="heart-button" (click)="toggleFavorite()">
       @if (isFavorite) {
-        <span [class.filled]="isFavorite" >❤️</span>
+        <span [class.filled]="isFavorite">❤️</span>
       } @else {
         <span>🤍</span>
       }

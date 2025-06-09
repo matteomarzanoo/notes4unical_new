@@ -7,3 +7,6 @@
 - [X] Download documents (Half)
 - [X] Header routing
 - [ ] Create endpoint for changing password
+- [ ] Create doc content button
+- [ ] Path admin
+- [ ] 

@@ -2,6 +2,8 @@ import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User } from '../../../../features/users/shared/users';
+import { UserRole } from '../../model/user-role';
+import { ActiveUserService } from '../../../../features/users/shared/active-user.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,11 @@ export class LoginComponent implements AfterViewInit {
   @ViewChild('email') emailInput!: ElementRef;
   @ViewChild('password') passwordInput!: ElementRef;
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private currentUser: ActiveUserService
+  ) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -38,9 +44,14 @@ export class LoginComponent implements AfterViewInit {
     this.authService.login(username, password)
       .subscribe({
         next: (user: User) => {
-          sessionStorage.setItem('user', JSON.stringify(user)),
-          sessionStorage.setItem('isLoggedIn', 'true'),
-          this.router.navigate(['/user', user.name.toLowerCase()], { state: { activeUser: user }})
+          this.currentUser.setUser(user)
+          if (this.currentUser.getUser()!.role === UserRole.ADMIN) {
+            this.router.navigate(['/admin']);
+          } else if (this.currentUser.getUser()!.role === UserRole.USER) {
+            this.router.navigate(['/user', user.name.toLowerCase()]);
+          } else {
+            this.router.navigate(['**']);
+          }
         },
         error: () => { alert('Credenziali errate!') }
       });

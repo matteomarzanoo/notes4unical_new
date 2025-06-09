@@ -1,8 +1,9 @@
 import { Component, DoCheck } from '@angular/core';
 import { Router, RouterModule, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../auth/services/auth.service';
 import { User } from '../../../features/users/shared/users'; 
+import { ActiveUserService } from '../../../features/users/shared/active-user.service';
+import { UserRole } from '../../auth/model/user-role';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,7 @@ export class HeaderComponent implements DoCheck {
   isHovered = false;
   user: User | null = null;
 
-  constructor(private router: Router, private authService: AuthService) { 
+  constructor(private router: Router, private currentUser: ActiveUserService) { 
     this.loadUserFromSession();
   }
 
@@ -24,14 +25,9 @@ export class HeaderComponent implements DoCheck {
   }
 
   private loadUserFromSession() {
-    const stored = sessionStorage.getItem('user');
-    if (stored !== null) {
-      try {
-        this.user = JSON.parse(stored) as User;
-      } catch {
-        this.user = null;
-      }
-    } else {
+    this.user = this.currentUser.getUser();
+
+    if (!this.user) {
       this.user = null;
     }
   }
@@ -68,30 +64,23 @@ const ids = [
 
  logout(event: Event) {
     event.preventDefault();
-
-    this.authService.logout().subscribe({
-      next: () => {
-        sessionStorage.clear(),
-        console.log('Logout request sended. sessionStorage cleared');
-        this.router.navigate(['/login']);
-      },
-      error: (err: any) => {
-        console.error('Error logout\'s request:', err);
-      }
-    });
+    this.currentUser.clearUser();
+    this.router.navigate(['/login']);
   }
 
   goToFavorites() {
-    if (this.authService.isLoggedIn() === 'true' && this.user) {
-      this.router.navigate(['/user', this.user.name.toLowerCase(), 'favorites'], { state: { activeUser: this.user }});
+    if (this.currentUser.getUser()) {
+      this.router.navigate(['/user', this.currentUser.getUser()!.name.toLowerCase(), 'favorites']);
     } else {
       this.router.navigate(['/login']);
     }
   }
 
   goToUser() {
-    if (this.authService.isLoggedIn() === 'true' && this.user) {
-      this.router.navigate(['/user', this.user.name.toLowerCase()], { state: { activeUser: this.user }});
+    if (this.currentUser.getUser()?.role === UserRole.ADMIN) {
+      this.router.navigate(['/admin']);
+    } else if (this.currentUser.getUser()?.role === UserRole.USER) {
+      this.router.navigate(['/user', this.currentUser.getUser()!.name.toLowerCase()]);
     } else {
       this.router.navigate(['/login']);
     }

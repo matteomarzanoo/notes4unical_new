@@ -18,38 +18,31 @@ import { UserService } from '../shared/users.service';
 })
 export class UserComponent implements OnInit {
   
-  currentUser!: User;
+  user!: User;
   favs$!: Observable<Doc[]>;
   docs$!: Observable<Doc[]>;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private titleService: Title,
     private docService: DocService,
-    private currentUserService: ActiveUserService,
-    private userService: UserService
+    private userService: UserService,
+    private currentUser: ActiveUserService,
+    private titleService: Title
   ) { 
-    this.route.queryParams
-      .subscribe(() => {
-        if (this.router.getCurrentNavigation()?.extras.state) {
-          this.currentUser = this.router.getCurrentNavigation()?.extras.state?.['activeUser'];
-          this.currentUserService.setUser(this.currentUser)
-          this.titleService.setTitle(`${this.currentUser.name}\'s Profile | Notes4Unical - Be the community`);
-        }
-      });
+    this.user = this.currentUser.getUser()!;
+    this.titleService.setTitle(`${this.currentUser.getUser()!.name}\'s Profile | Notes4Unical - Be the community`);
   }
   
   ngOnInit(): void {
-    this.docs$ = this.docService.getUserDocs(this.currentUser.id!)
+    this.docs$ = this.docService.getUserDocs(this.user.id!)
       .pipe(map(docs => docs.slice().reverse().slice(0, 4)));
 
-    this.favs$ = this.userService.getLikedDocumentsByUser(this.currentUser.id!)
+    this.favs$ = this.userService.getLikedDocumentsByUser(this.user.id!)
       .pipe(map(favDocs => favDocs.slice().reverse().slice(0, 4)));
   }
 
   goToSettings() {
-    this.router.navigate(['settings'], { relativeTo: this.route });
+    this.router.navigate(['settings']);
   }
 
   goToUpload() {

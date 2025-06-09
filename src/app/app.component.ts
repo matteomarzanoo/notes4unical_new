@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { FooterComponent } from './core/layout/footer/footer.component';
-import { AuthService } from './core/auth/services/auth.service';
-import { tap } from 'rxjs';
+import { ActiveUserService } from './features/users/shared/active-user.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +12,13 @@ import { tap } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   
-  constructor(private authService: AuthService) { }
+  constructor(private currentUser: ActiveUserService) { }
 
   ngOnInit() {
-    this.authService.checkSession()
-      .pipe(tap(() => console.log('check session')))
-      .subscribe()
+    if (this.currentUser.getUser()) {
+      console.log('User logged in');
+    } else {
+      console.log('User logged out');
+    }
   }
 }

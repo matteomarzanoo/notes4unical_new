@@ -22,9 +22,7 @@
       </label>
     </div>
 
-    <a style="cursor: pointer;" (click)="goToFavorites()">Favorites</a>
-    <a style="cursor: pointer;" (click)="goToUser()">Profile</a>
-
+    <a style="cursor: pointer;" *ngIf="user" (click)="goToUser()">Profile</a>
     <a *ngIf="!user" routerLink="/login">Login</a>
     <a style="cursor: pointer;" *ngIf="user" (click)="logout($event)">Logout</a>
   </nav>

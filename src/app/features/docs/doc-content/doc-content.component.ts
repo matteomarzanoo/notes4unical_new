@@ -4,7 +4,6 @@ import { Doc } from '../shared/doc';
 import { AuthService } from '../../../core/auth/services/auth.service';
 import { Location} from '@angular/common';
 import { DocService } from '../shared/doc.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActiveUserService } from '../../users/shared/active-user.service';
 import { UserService } from '../../users/shared/users.service';
 
@@ -26,7 +25,7 @@ export class DocContentComponent {
     protected authService: AuthService,
     private location: Location,
     private docService: DocService,
-    private currentUser: ActiveUserService,
+    protected currentUser: ActiveUserService,
     private userService: UserService
   ) {
     this.route.queryParams.subscribe(_ => {

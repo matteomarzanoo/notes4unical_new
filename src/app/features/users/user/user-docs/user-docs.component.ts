@@ -59,7 +59,7 @@ export class UserDocsComponent {
   
   @Input() doc!: Doc;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router) { }
 
   goToDoc() {
     this.router.navigate(['docs', this.doc.id], { state: { docTaken: this.doc }})

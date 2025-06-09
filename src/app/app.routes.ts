@@ -5,6 +5,10 @@ import { FeedbackComponent } from './shared/feedback/feedback.component';
 import { RegisterComponent } from './core/auth/components/register/register.component';
 import { LoginComponent } from './core/auth/components/login/login.component';
 import { ChangepwdComponent } from './core/auth/components/changepwd/changepwd.component';
+import { AdminComponent } from './features/users/admin/admin.component';
+import { authGuard } from './core/auth/services/auth.guard';
+import { AdminDocsComponent } from './features/users/admin/admin-docs/admin-docs.component';
+import { AdminUsersComponent } from './features/users/admin/admin-users/admin-users.component';
 
 export const routes: Routes = [
     { 
@@ -29,6 +33,24 @@ export const routes: Routes = [
     { 
         path: 'user', 
         loadChildren: () => import('./features/users/users.routes').then(c => c.USERS_ROUTES) 
+    },
+    {
+        title: 'Admin Dashboard | Notes4Unical - Be the Community',
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [authGuard]
+    },
+    {
+        title: 'Doc Management | Notes4Unical - Be the Community',
+        path: 'admin/docs',
+        component: AdminDocsComponent,
+        canActivate: [authGuard]
+    },
+    {
+        title: 'User List | Notes4Unical - Be the Community',
+        path: 'admin/users',
+        component: AdminUsersComponent,
+        canActivate: [authGuard]
     },
     { 
         title: 'Send a Feedback | Notes4Unical - Be the Community', 

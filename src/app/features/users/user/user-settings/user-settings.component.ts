@@ -21,7 +21,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
       name: this.currentUser.getUser()!.name,
       surname: this.currentUser.getUser()!.surname,
       email: this.currentUser.getUser()!.email,
-      faculty: this.currentUser.getUser()!.faculty
+      faculty: this.currentUser.getUser()!.faculty!
     });
   }
 

@@ -1,7 +1,7 @@
 <div id="mainHome" style="margin-top: 40px;"></div>
 
 <div id="userSidebar" class="split-left">
-  <h1 id="welcomeTitle">Welcome Back, {{ currentUser.name }} {{ currentUser.surname }}!</h1>
+  <h1 id="welcomeTitle">Welcome Back, {{ user.name }} {{ user.surname }}!</h1>
   <button (click)="goToUpload()">Upload a Document</button>
   <button (click)="goToSettings()">Settings</button>
 </div>
@@ -12,7 +12,7 @@
 
   <div id="documentSection" class="docs-box">
     <h2 id="h2recent">Personal Documents</h2>
-    <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'list']">View All</a>
+    <a [routerLink]="['/user', this.user.name.toLowerCase(), 'list']">View All</a>
     <ul>
       @if (docs$ | async; as docs) {
         @if (docs.length > 0) {
@@ -34,7 +34,7 @@
 
   <div id="favoritesSection" class="fav-box">
     <h2>Favorites</h2>
-    <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'favorites']">View All</a>
+    <a [routerLink]="['/user', this.user.name.toLowerCase(), 'favorites']">View All</a>
     <ul>
       @if (favs$ | async; as favs) {
         @if (favs.length > 0) {
