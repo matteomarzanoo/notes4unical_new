@@ -6,17 +6,8 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-admin',
   imports: [CommonModule],
-  template: `
-    <h1>Hello, {{ currentUser.getUser()!.name }}</h1>
-    <p>Current Time: {{ currentTime | date:'full' }} </p>
-
-    <nav>
-      <button (click)="changeView('documents')">Documents</button>
-      <button (click)="changeView('users')">Users</button>
-      <button (click)="changeView('changePassword')">Change Password</button>
-    </nav>
-    `,
-  styles: ``
+  templateUrl:'./admin.component.html',
+  styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
