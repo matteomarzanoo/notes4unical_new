@@ -1,3 +1,9 @@
+@if (showPopup) {ù
+  <div class="favorite-popup">
+    Aggiunto ai preferiti ❤️
+  </div>
+}
+
 <main class="doc-content-card">
   <header class="doc-header">
     <h1>{{ doc.name }}</h1>
@@ -13,5 +19,12 @@
   <footer class="doc-actions">
     <button type="button" [disabled]="this.authService.isLoggedIn() == null" (click)="onDownload()">Download</button>
     <button type="button" (click)="onBack()">Back</button>
+    <button type="button" class="heart-button" (click)="toggleFavorite()">
+      @if (isFavorite) {
+        <span [class.filled]="isFavorite" >❤️</span>
+      } @else {
+        <span>🤍</span>
+      }
+    </button>
   </footer>
 </main>

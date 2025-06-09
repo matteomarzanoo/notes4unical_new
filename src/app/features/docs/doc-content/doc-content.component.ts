@@ -5,6 +5,8 @@ import { AuthService } from '../../../core/auth/services/auth.service';
 import { Location} from '@angular/common';
 import { DocService } from '../shared/doc.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActiveUserService } from '../../users/shared/active-user.service';
+import { UserService } from '../../users/shared/users.service';
 
 @Component({
   selector: 'app-doc-content',
@@ -13,7 +15,10 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./doc-content.component.css']
 })
 export class DocContentComponent {
+  
   doc!: Doc;
+  isFavorite: boolean = false;
+  showPopup: boolean = false;
 
   constructor(
     private router: Router,
@@ -21,7 +26,8 @@ export class DocContentComponent {
     protected authService: AuthService,
     private location: Location,
     private docService: DocService,
-    private sanitazier: DomSanitizer
+    private currentUser: ActiveUserService,
+    private userService: UserService
   ) {
     this.route.queryParams.subscribe(_ => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -50,6 +56,20 @@ export class DocContentComponent {
       });
   }
   
+  toggleFavorite() {
+    this.isFavorite = !this.isFavorite;
+    
+    if (this.isFavorite) {
+      this.showPopup = true;
+      setTimeout(() => {
+        this.showPopup = false;
+      }, 2000);
+    }
+
+    this.userService.addLike(this.currentUser.getUser()!.id!, this.doc.id!)
+      .subscribe()
+  }
+
   onBack() {
     this.location.back();
   }

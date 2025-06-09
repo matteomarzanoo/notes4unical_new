@@ -8,6 +8,7 @@ import { Observable, map } from 'rxjs';
 import { Doc } from '../../docs/shared/doc';
 import { UserDocsComponent } from './user-docs/user-docs.component';
 import { ActiveUserService } from '../shared/active-user.service';
+import { UserService } from '../shared/users.service';
 
 @Component({
   selector: 'app-user',
@@ -18,7 +19,7 @@ import { ActiveUserService } from '../shared/active-user.service';
 export class UserComponent implements OnInit {
   
   currentUser!: User;
-  items = [];
+  favs$!: Observable<Doc[]>;
   docs$!: Observable<Doc[]>;
 
   constructor(
@@ -26,7 +27,8 @@ export class UserComponent implements OnInit {
     private route: ActivatedRoute,
     private titleService: Title,
     private docService: DocService,
-    private currentUserService: ActiveUserService
+    private currentUserService: ActiveUserService,
+    private userService: UserService
   ) { 
     this.route.queryParams
       .subscribe(() => {
@@ -41,6 +43,9 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.docs$ = this.docService.getUserDocs(this.currentUser.id!)
       .pipe(map(docs => docs.slice().reverse().slice(0, 4)));
+
+    this.favs$ = this.userService.getLikedDocumentsByUser(this.currentUser.id!)
+      .pipe(map(favDocs => favDocs.slice().reverse().slice(0, 4)));
   }
 
   goToSettings() {

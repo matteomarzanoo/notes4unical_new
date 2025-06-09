@@ -1,23 +1,22 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, retry } from 'rxjs';
+import { Doc } from '../../docs/shared/doc';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  api = 'api/users'
+  private api = 'api/users'
+  private apiLikes = 'api/likes'
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+  constructor(private http: HttpClient) { }
   /**
    * GET return atual logged user
    */
   getUser() {
-    return this.http.get(`http://localhost:8080/${this.api}/me`)
-      .pipe(tap(user => console.log(`DEBUG --> Actual user retrieved from the server: ${user}`)))
+    return this.http.get(`http://localhost:8080/${this.api}/me`);
   }
   /**
    * POST create a user through admin's interface
@@ -25,7 +24,26 @@ export class UserService {
   createUser(body: Observable<any>) {
     return this.http.post(`http://localhost:8080/${this.api}/register`, body.toString(), { 
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') 
-    })
-      .pipe(tap(_ => console.log('DEBUG --> The user was created in the DB')));
+    });
+  }
+  /**
+   * GET document likes by User
+   */
+  getLikedDocumentsByUser(userId: number): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.apiLikes}/user/${userId}`, { withCredentials: true })
+      .pipe(
+        retry(3),
+        tap(likedDocs => console.log(likedDocs))
+      )
+  }
+  /**
+   * POST document with heart for favorites
+   */
+  addLike(userId: number, documentId: number) {
+    return this.http.post(`http://localhost:8080/${this.apiLikes}/${userId}/${documentId}`, {}, { withCredentials: true })
+      .pipe(
+        retry(3),
+        tap(addedLike => console.log(addedLike))
+      )
   }
 }

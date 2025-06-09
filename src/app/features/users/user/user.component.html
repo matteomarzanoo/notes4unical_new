@@ -36,10 +36,20 @@
     <h2>Favorites</h2>
     <a [routerLink]="['/user', this.currentUser.name.toLowerCase(), 'favorites']">View All</a>
     <ul>
-      @for (item of items; track $index) {
-        <li></li>
-      } @empty {
-        <p id="noFavsMessage">There are no favorites at the moment</p>
+      @if (favs$ | async; as favs) {
+        @if (favs.length > 0) {
+        <div id="carouselDocs" class="carousel-track">
+          @for (fav of favs; track $index) {
+          <div class="carousel-item">
+            <app-user-docs [doc]="fav"></app-user-docs>
+          </div>
+          } @empty {
+            <p id="noDocsMessage">There are no favorites documement</p>
+          }
+        </div>
+        } @else {
+        <p class="empty-state">There are no favorites documement at the moment</p>
+        }
       }
     </ul>
   </div>
