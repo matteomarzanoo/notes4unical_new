@@ -27,7 +27,8 @@ export class UserComponent implements OnInit {
     private docService: DocService,
     private userService: UserService,
     private currentUser: ActiveUserService,
-    private titleService: Title
+    private titleService: Title,
+    private route: ActivatedRoute
   ) { 
     this.user = this.currentUser.getUser()!;
     this.titleService.setTitle(`${this.currentUser.getUser()!.name}\'s Profile | Notes4Unical - Be the community`);
@@ -42,7 +43,7 @@ export class UserComponent implements OnInit {
   }
 
   goToSettings() {
-    this.router.navigate(['settings']);
+    this.router.navigate(['settings'], { relativeTo: this.route });
   }
 
   goToUpload() {
