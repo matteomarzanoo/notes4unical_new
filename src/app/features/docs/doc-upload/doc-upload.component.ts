@@ -40,7 +40,7 @@ export class DocUploadComponent implements OnDestroy {
 
     this.uploadSuccess = true;
     setTimeout(() => {
-      this.router.navigate(['/']);
+      this.location.back();
     }, 3000);
   }
 

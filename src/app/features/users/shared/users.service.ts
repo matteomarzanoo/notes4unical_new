@@ -7,31 +7,10 @@ import { Doc } from '../../docs/shared/doc';
   providedIn: 'root'
 })
 export class UserService {
-
-  private api = 'api/users'
+  
   private apiLikes = 'api/auth/likes'
 
   constructor(private http: HttpClient) { }
-  /**
-   * GET return atual logged user
-   */
-  getUser() {
-    return this.http.get(`http://localhost:8080/${this.api}/me`);
-  }
-  /**
-   * Return the value for the activeUser key
-   */
-  getUserStorage() {
-    return sessionStorage.getItem('activeUser');
-  }
-  /**
-   * POST create a user through admin's interface
-   */
-  createUser(body: Observable<any>) {
-    return this.http.post(`http://localhost:8080/${this.api}/register`, body.toString(), { 
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') 
-    });
-  }
   /**
    * GET document likes by User
    */

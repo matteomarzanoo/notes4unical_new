@@ -52,15 +52,10 @@ export class RegisterComponent implements AfterViewInit {
       return;
     }
 
-    this.authService.register(emailValue, nomeValue, cognomeValue, passwordValue, corsoDiStudioValue).subscribe(
-      response => {
-        console.log('Registrazione avvenuta con successo:', response);
-        alert("✅ Registrazione completata con successo!");
-      },
-      error => {
-        console.error('Errore durante la registrazione:', error);
-        alert("❌ Errore nella registrazione, riprova.");
-      }
-    );
+    this.authService.register(emailValue, nomeValue, cognomeValue, passwordValue, corsoDiStudioValue)
+      .subscribe({
+        next: () => { alert("✅ Registrazione completata con successo!") },
+        error: () => { alert("❌ Errore nella registrazione, riprova.") }
+      });
   }
 }

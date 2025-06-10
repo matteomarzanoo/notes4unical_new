@@ -3,8 +3,6 @@ import { Doc, DocFile } from './doc';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, retry, tap } from 'rxjs';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -14,21 +12,31 @@ export class DocService {
   private readonly authApi = 'api/auth';
   
   constructor(private http: HttpClient) { }
-  
-  getValidated(): Observable<Doc[]> {
-    return this.http.get<Doc[]>('/api/open/documents/valid');
+  /**
+   * GET all docs from the server
+   */
+  getAllDocs(): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents`)
+      .pipe(
+        retry(3),
+        tap((list) => console.log(list))
+      );
   }
-
-  getNotValidated(): Observable<Doc[]> {
-    return this.http.get<Doc[]>('/api/auth/documents/not-valid');
-  }
-
-
   /**
    * GET docs from the server
    */
   getDocsValid(): Observable<Doc[]> {
-    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/open/documents/valid`)
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents/valid`)
+      .pipe(
+        retry(3),
+        tap((list) => console.log(list))
+      );
+  }
+  /**
+   * GET all doc not validated from the server 
+   */
+  getDocsNotValid(): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.authApi}/documents/not-valid`, { withCredentials: true })
       .pipe(
         retry(3),
         tap((list) => console.log(list))
@@ -86,26 +94,20 @@ export class DocService {
       );
   }
   /**
-   * PUT update the doc on the server
-   * TO FIX
+   * DELETE delete the doc from the server with an authenticated account
    */
-  updateDoc(doc: Doc, id: number) : Observable<any> {
-    return this.http.put(`http://localhost:8080/${this.authApi}/documents/${id}`, doc, { withCredentials: true })
+  deleteDoc(id: number): Observable<any> {
+    return this.http.delete<any>(`http://localhost:8080/${this.authApi}/documents/${id}`, { withCredentials: true })
       .pipe(retry(3));
   }
   /**
-   * DELETE delete the doc from the server with an authenticated account
+   * PATCH validate a document through admin
    */
-  deleteDoc(id: number): Observable<unknown> {
-    return this.http.delete<unknown>(`http://localhost:8080/${this.authApi}/documents/${id}`, { withCredentials: true })
-      .pipe(retry(3));
-  }
-
   validateDoc(documentId: number, adminId: number): Observable<void> {
-    return this.http.patch<void>(
-      `/api/admin/documents/${documentId}/validate/${adminId}`,
-      {},
-      { withCredentials: true }
-    );
+    return this.http.patch<void>(`http://localhost:8080/api/admin/documents/${documentId}/validate/${adminId}`, {}, { withCredentials: true })
+      .pipe(
+        retry(3),
+        tap(el => console.log(el))
+      );
   }
 }
