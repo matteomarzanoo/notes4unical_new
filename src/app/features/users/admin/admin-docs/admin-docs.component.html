@@ -7,21 +7,43 @@
     </div>
   </div>
 
-  <ul *ngIf="documents.length > 0; else noDocs" class="doc-list">
-    <li *ngFor="let doc of documents; let i = index" class="doc-item">
+  <!-- Lista documenti non validati -->
+  <h3>Documenti non validati</h3>
+  <ul *ngIf="nonValidati.length > 0; else noNonValidati" class="doc-list">
+    <li *ngFor="let doc of nonValidati" class="doc-item">
       <div class="doc-summary">
         <strong>{{ doc.name }}</strong> — {{ doc.course }}
       </div>
       <div class="doc-actions">
         <button class="info" (click)="selectDoc(doc)">Info</button>
-        <button class="validate" (click)="validateDoc(doc)">Validate</button>
+        <button class="validate" (click)="valida(doc.id)">Valida</button>
         <button class="delete" (click)="deleteDoc(doc)">Delete</button>
       </div>
     </li>
   </ul>
+  <ng-template #noNonValidati>
+    <p>Nessun documento non validato disponibile.</p>
+  </ng-template>
 
-  <ng-template #noDocs>
-    <p>Nessun documento disponibile. Usa "ADD" per aggiungerne uno.</p>
+  <!-- Lista documenti validati -->
+  <h3>Documenti già validati</h3>
+  <ul *ngIf="validati.length > 0; else noValidati" class="doc-list">
+    <li *ngFor="let doc of validati" class="doc-item">
+      <div class="doc-summary">
+        <strong>{{ doc.name }}</strong> — {{ doc.course }}
+      </div>
+      <div class="doc-actions">
+        <button class="info" (click)="selectDoc(doc)">Info</button>
+        <!-- Qui il bottone valida non serve più -->
+        <button class="delete" (click)="deleteDoc(doc)">Delete</button>
+      </div>
+    </li>
+  </ul>
+  <ng-template #noValidati>
+    <p>Nessun documento validato disponibile.</p>
+
+    <p>Validati count: {{ validati.length }}</p>
+    <p>Non validati count: {{ nonValidati.length }}</p>
   </ng-template>
 
   <!-- Info popup -->
@@ -29,10 +51,9 @@
     <main class="doc-content-card">
       <header class="doc-header">
         <h1>{{ selectedDoc.name }}</h1>
-        <h2>Autore: <span class="highlight">{{ selectedDoc.id }}</span></h2>
+        <h2>Autore: <span class="highlight">{{ selectedDoc.user_id }}</span></h2> 
         <h3>Corso: <span class="highlight">{{ selectedDoc.course }}</span></h3>
       </header>
-
       <section class="doc-description">
         <h4>Descrizione</h4>
         <p>{{ selectedDoc.description }}</p>

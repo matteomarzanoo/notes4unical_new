@@ -3,6 +3,8 @@ import { Doc, DocFile } from './doc';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, retry, tap } from 'rxjs';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,15 +14,25 @@ export class DocService {
   private readonly authApi = 'api/auth';
   
   constructor(private http: HttpClient) { }
+  
+  getValidated(): Observable<Doc[]> {
+    return this.http.get<Doc[]>('/api/open/documents/valid');
+  }
+
+  getNotValidated(): Observable<Doc[]> {
+    return this.http.get<Doc[]>('/api/auth/documents/not-valid');
+  }
+
+
   /**
    * GET docs from the server
    */
   getDocsValid(): Observable<Doc[]> {
-    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/documents/valid`)
+    return this.http.get<Doc[]>(`http://localhost:8080/${this.openApi}/open/documents/valid`)
       .pipe(
         retry(3),
         tap((list) => console.log(list))
-      )
+      );
   }
   /**
    * GET doc by id from the server
@@ -87,5 +99,13 @@ export class DocService {
   deleteDoc(id: number): Observable<unknown> {
     return this.http.delete<unknown>(`http://localhost:8080/${this.authApi}/documents/${id}`, { withCredentials: true })
       .pipe(retry(3));
+  }
+
+  validateDoc(documentId: number, adminId: number): Observable<void> {
+    return this.http.patch<void>(
+      `/api/admin/documents/${documentId}/validate/${adminId}`,
+      {},
+      { withCredentials: true }
+    );
   }
 }

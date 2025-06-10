@@ -11,8 +11,8 @@ import { ActiveUserService } from '../shared/active-user.service';
 import { UserService } from '../shared/users.service';
 
 @Component({
-  selector: 'app-user',
-  imports: [UserDocsComponent, RouterLink, AsyncPipe],
+  selector: 'app-user',   //qua sotto c'era anche RouterLink,
+  imports: [UserDocsComponent,  AsyncPipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })

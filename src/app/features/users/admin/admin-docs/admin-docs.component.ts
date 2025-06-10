@@ -1,32 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { DocService } from './doc.service';
-import { Doc } from './doc';
+import { DocService } from '../../../docs/shared/doc.service';
+import { Doc } from '../../../docs/shared/doc';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  
   selector: 'app-admin-docs',
+  imports: [CommonModule],
+  standalone:true, 
   templateUrl: './admin-docs.component.html',
   styleUrls: ['./admin-docs.component.css']
 })
 export class AdminDocsComponent implements OnInit {
-  documents: Doc[] = [];
+  nonValidati: Doc[] = [];
+  validati: Doc[] = [];
+  selectedDoc: Doc | null = null;
+  adminId = 3;
 
   constructor(private docService: DocService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadDocuments();
+    this.docService.getNotValidated().subscribe(data => {
+      console.log('Documenti non validati:', data);
+      this.nonValidati = data;
+    });
+
+    this.docService.getValidated().subscribe(data => {
+      console.log('Documenti validati:', data);
+      this.validati = data;
+    });
   }
 
+  selectDoc(doc: Doc): void {
+    this.selectedDoc = doc;
+  }
+
+
   loadDocuments(): void {
-    this.docService.getDocsValid().subscribe(docs => {
-      this.documents = docs;
+    this.docService.getNotValidated().subscribe(data => this.nonValidati = data);
+    this.docService.getValidated().subscribe(data => this.validati = data);
+  }
+
+  valida(id: number) {
+    this.docService.validateDoc(id, this.adminId).subscribe(() => {
+      this.loadDocuments();
     });
   }
 
   addDocument(): void {
-    // Qui puoi aprire un form o altro per caricare il documento
-    // oppure creare un doc demo come prima
-    // esempio demo (da modificare se serve upload vero)
     const demoDoc = new FormData();
     demoDoc.append('name', `Documento Demo ${Date.now()}`);
     demoDoc.append('description', 'Documento di test demo');
@@ -36,16 +58,39 @@ export class AdminDocsComponent implements OnInit {
   }
 
   deleteDoc(doc: Doc): void {
-    this.docService.deleteDoc(doc.id).subscribe(() => this.loadDocuments());
+    if (doc.id !== undefined) {
+      this.docService.deleteDoc(doc.id).subscribe(() => this.loadDocuments());
+    } else {
+      console.error('ID del documento non definito');
+    }
   }
 
   validateDoc(doc: Doc): void {
-    // Se hai una API validate usa quella, altrimenti alert demo
     alert(`Documento "${doc.name}" validato!`);
-    // eventualmente ricarica lista o aggiorna stato
   }
 
   openDetail(doc: Doc): void {
-    this.router.navigate(['/admin/documents', doc.id]); // naviga al componente dettaglio
+    this.router.navigate(['/admin/documents', doc.id]);
+  }
+
+    goBack() {
+      this.router.navigate(['/admin']);
+  }
+
+  closePopup(): void {
+    this.selectedDoc = null;
+  }
+
+  onDownload(): void {
+    if (this.selectedDoc) {
+      // Per simulare un download (solo esempio)
+      const blob = new Blob([`Contenuto del documento "${this.selectedDoc.name}"`], { type: 'text/plain' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.selectedDoc.name}.txt`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
   }
 }

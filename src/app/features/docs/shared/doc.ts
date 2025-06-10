@@ -1,6 +1,6 @@
 export interface Doc {
-    id?: number
-    user_id?: number
+    id: number
+    user_id: number
     data: File,
     name: string,
     description: string,
