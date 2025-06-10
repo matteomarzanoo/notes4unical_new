@@ -1,0 +1,16 @@
+<div class="admin-wrapper">
+  <div class="admin-left">
+    <h1>Welcome, {{ currentUser.getUser()!.name }}</h1>
+    <p class="time">🕒 {{ currentTime | date: 'full' }}</p>
+    <p class="subtitle">Amministrazione piattaforma</p>
+  </div>
+
+  <div class="admin-right">
+    <h2>Azioni rapide</h2>
+    <div class="admin-nav">
+      <button (click)="changeView('documents')">📄 Gestione Documenti</button>
+      <!-- <button (click)="changeView('users')">👥 Gestione Utenti</button> -->
+      <button (click)="changeView('changePassword')">🔒 Cambia Password</button>
+    </div>
+  </div>
+</div>

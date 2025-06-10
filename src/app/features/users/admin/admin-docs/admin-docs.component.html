@@ -1,0 +1,47 @@
+<div class="docs-container">
+  <div class="docs-header">
+    <h2>Gestione Documenti</h2>
+    <div class="docs-header-buttons">
+      <button class="back-btn" id="back-btn" (click)="goBack()">⬅ Back</button>
+      <button class="add-btn" (click)="addDocument()">➕ Add</button>
+    </div>
+  </div>
+
+  <ul *ngIf="documents.length > 0; else noDocs" class="doc-list">
+    <li *ngFor="let doc of documents; let i = index" class="doc-item">
+      <div class="doc-summary">
+        <strong>{{ doc.name }}</strong> — {{ doc.course }}
+      </div>
+      <div class="doc-actions">
+        <button class="info" (click)="selectDoc(doc)">Info</button>
+        <button class="validate" (click)="validateDoc(doc)">Validate</button>
+        <button class="delete" (click)="deleteDoc(doc)">Delete</button>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #noDocs>
+    <p>Nessun documento disponibile. Usa "ADD" per aggiungerne uno.</p>
+  </ng-template>
+
+  <!-- Info popup -->
+  <div *ngIf="selectedDoc" class="doc-popup">
+    <main class="doc-content-card">
+      <header class="doc-header">
+        <h1>{{ selectedDoc.name }}</h1>
+        <h2>Autore: <span class="highlight">{{ selectedDoc.id }}</span></h2>
+        <h3>Corso: <span class="highlight">{{ selectedDoc.course }}</span></h3>
+      </header>
+
+      <section class="doc-description">
+        <h4>Descrizione</h4>
+        <p>{{ selectedDoc.description }}</p>
+      </section>
+
+      <footer class="doc-actions">
+        <button type="button" (click)="onDownload()">Download</button>
+        <button type="button" (click)="closePopup()">Chiudi</button>
+      </footer>
+    </main>
+  </div>
+</div>

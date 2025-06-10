@@ -1,0 +1,74 @@
+.admin-wrapper {
+  display: flex;
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 30px;
+  gap: 40px;
+  border-radius: 16px;
+  background-color: #f4f6f9;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-left {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+}
+
+.admin-left h1 {
+  color: #2e3a59;
+  margin-bottom: 10px;
+}
+
+.admin-left .time {
+  color: #6c757d;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.admin-left .subtitle {
+  font-size: 16px;
+  color: #888;
+}
+
+.admin-right {
+  flex: 1;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+  text-align: center;
+}
+
+.admin-right h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: stretch;
+}
+
+.admin-nav button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #1976d2;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-nav button:hover {
+  background-color: #0d47a1;
+  transform: scale(1.03);
+}
